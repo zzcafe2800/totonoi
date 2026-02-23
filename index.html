@@ -8,35 +8,22 @@
     :root{
       --bg1:#061a2a;
       --bg2:#020a14;
-
       --text: rgba(244,252,255,.95);
       --muted: rgba(244,252,255,.62);
-
       --glass: rgba(10, 26, 45, .48);
       --glass2: rgba(10, 26, 45, .30);
       --border: rgba(190, 245, 255, .18);
-
       --shadow: 0 18px 45px rgba(0,0,0,.35);
       --r: 20px;
 
-      /* semantic colors */
-      --primary: rgba(130, 220, 255, .98);    /* upload / main */
-      --primarySoft: rgba(130, 220, 255, .14);
-
-      --list: rgba(170, 150, 255, .95);       /* list */
-      --listSoft: rgba(170, 150, 255, .14);
-
-      --frame: rgba(100, 240, 180, .95);      /* waku */
-      --frameSoft: rgba(100, 240, 180, .14);
-
+      --primary: rgba(130, 220, 255, .98);
+      --list: rgba(170, 150, 255, .95);
+      --frame: rgba(100, 240, 180, .95);
       --danger: rgba(255, 130, 150, .95);
-      --dangerSoft: rgba(255, 130, 150, .12);
-
-      --focus: rgba(130,220,255,.55);
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
     body{
       margin:0;
       color: var(--text);
@@ -75,7 +62,6 @@
     .bubbles{ position:fixed; inset:0; pointer-events:none; opacity:.32; }
     .bubble{
       position:absolute;
-      width: 10px; height: 10px;
       border-radius: 999px;
       border: 1px solid rgba(200,250,255,.35);
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%);
@@ -94,44 +80,50 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      padding: 26px 18px 32px;
+      padding: 24px 18px 30px;
       gap: 14px;
     }
 
-    /* Header */
+    /* top */
     .top{
-      width: min(1100px, 100%);
+      width:min(1100px, 100%);
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap: 12px;
+      gap:12px;
       padding: 6px 2px 2px;
     }
     .title{
       display:flex;
       align-items:center;
-      gap: 10px;
+      gap:10px;
       font-weight: 950;
-      letter-spacing: .2px;
+      letter-spacing:.2px;
       font-size: 22px;
       text-shadow: 0 10px 28px rgba(0,0,0,.35);
     }
     .dot{
-      width: 10px; height: 10px;
-      border-radius: 999px;
+      width:10px; height:10px;
+      border-radius:999px;
       background: var(--primary);
       box-shadow: 0 0 0 9px rgba(130,220,255,.12);
     }
-    .sub{
+    .miniRow{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .mini{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
       color: var(--muted);
       font-size: 12px;
-      line-height:1.2;
       user-select:none;
       white-space:nowrap;
-      text-align:right;
     }
 
-    /* Panels */
+    /* panels */
     .panel{
       width:min(1100px, 100%);
       border: 1px solid var(--border);
@@ -142,7 +134,7 @@
       -webkit-backdrop-filter: blur(12px);
     }
 
-    /* Buttons */
+    /* buttons */
     .btn{
       position:relative;
       appearance:none;
@@ -150,46 +142,25 @@
       background: rgba(255,255,255,.05);
       color: var(--text);
       padding: 12px 14px;
-      border-radius: 16px;
+      border-radius: 18px;
       cursor:pointer;
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing:.2px;
       user-select:none;
       transition: transform .08s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, filter .18s ease;
       overflow:hidden;
-      white-space: nowrap;
+      white-space:nowrap;
     }
     .btn:hover{
       box-shadow: 0 0 0 4px rgba(130,220,255,.10), 0 18px 40px rgba(0,0,0,.25);
       filter: brightness(1.03);
     }
     .btn:active{ transform: translateY(1px) scale(.99); }
-    .btn:focus-visible{
-      outline:none;
-      box-shadow: 0 0 0 5px rgba(130,220,255,.18);
-      border-color: rgba(130,220,255,.55);
-    }
 
-    /* color roles */
-    .btn.primary{
-      border-color: rgba(130,220,255,.55);
-      background: linear-gradient(180deg, rgba(130,220,255,.22), rgba(255,255,255,.04));
-    }
-    .btn.primary:hover{
-      box-shadow: 0 0 0 4px rgba(130,220,255,.14), 0 20px 46px rgba(0,0,0,.25);
-    }
-    .btn.list{
-      border-color: rgba(170,150,255,.55);
-      background: linear-gradient(180deg, rgba(170,150,255,.20), rgba(255,255,255,.04));
-    }
-    .btn.frame{
-      border-color: rgba(100,240,180,.55);
-      background: linear-gradient(180deg, rgba(100,240,180,.18), rgba(255,255,255,.04));
-    }
-    .btn.danger{
-      border-color: rgba(255,130,150,.55);
-      background: linear-gradient(180deg, rgba(255,130,150,.18), rgba(255,255,255,.04));
-    }
+    .btn.primary{ border-color: rgba(130,220,255,.55); background: rgba(130,220,255,.14); }
+    .btn.list{ border-color: rgba(170,150,255,.55); background: rgba(170,150,255,.14); }
+    .btn.frame{ border-color: rgba(100,240,180,.55); background: rgba(100,240,180,.12); }
+    .btn.danger{ border-color: rgba(255,130,150,.55); background: rgba(255,130,150,.12); }
 
     /* splash droplets */
     .droplet{
@@ -216,89 +187,139 @@
       }
     }
 
-    /* HOME layout: clear hierarchy */
-    #home{ padding: 16px; }
-    .homeGrid{
+    /* HOME */
+    #home{ padding: 14px; }
+    .homeRow{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
       align-items:stretch;
     }
     @media (max-width: 860px){
-      .homeGrid{ grid-template-columns: 1fr; }
+      .homeRow{ grid-template-columns:1fr; }
     }
-
-    .hero{
-      border-radius: 18px;
+    .iconCard{
+      border-radius: 20px;
       border: 1px solid rgba(190,245,255,.14);
       background: rgba(255,255,255,.03);
-      padding: 16px;
+      padding: 14px;
       display:flex;
-      flex-direction:column;
-      gap: 10px;
+      align-items:center;
+      justify-content:center;
     }
-    .heroBig{
-      font-weight: 950;
-      font-size: 20px;
-      line-height: 1.15;
-      letter-spacing:.2px;
+    .iconLine{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      font-size: 22px;
+      opacity: .95;
+      user-select:none;
     }
-    .heroSmall{
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
-    .homeActions{
+    .homeBtns{
       display:flex;
       flex-direction:column;
       gap: 10px;
       justify-content:center;
     }
 
-    /* Upload button as big CTA */
-    .uploadBtn{
+    /* LIST */
+    #list{ display:none; }
+    #list.active{ display:block; }
+    #list .head{
+      padding: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .modes{ display:flex; gap: 10px; flex-wrap:wrap; align-items:center; }
+
+    .chip{
+      position:relative;
+      appearance:none;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 950;
+      user-select:none;
+      transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .08s ease, background .18s ease;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+    .chip:hover{
+      border-color: rgba(130,220,255,.45);
+      box-shadow: 0 0 0 4px rgba(130,220,255,.08);
+      filter: brightness(1.03);
+    }
+    .chip:active{ transform: translateY(1px); }
+    .chip.on{
+      border-color: rgba(130,220,255,.62);
+      background: rgba(130,220,255,.12);
+      box-shadow: 0 0 0 4px rgba(130,220,255,.10);
+    }
+
+    .focus{
+      padding: 14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .task{
+      border-radius: 22px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
+      padding: 18px 18px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .task::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(130,220,255,.10), transparent 60%);
+      transform: rotate(-8deg);
+      pointer-events:none;
+    }
+    .taskLine{
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 12px;
-      padding: 14px 14px;
-      border-radius: 18px;
+      flex-wrap:wrap;
     }
-    .uploadLeft{
-      display:flex; align-items:center; gap: 12px;
+    .taskText{
+      font-weight: 980;
+      font-size: 26px;
+      letter-spacing:.2px;
+      line-height: 1.15;
     }
-    .badgeIcon{
-      width: 34px; height: 34px; border-radius: 999px;
-      display:flex; align-items:center; justify-content:center;
-      border: 1px solid rgba(190,245,255,.18);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 0 0 8px rgba(130,220,255,.10);
-      font-weight: 950;
-    }
-    .uploadTxt{
-      display:flex; flex-direction:column; gap: 2px; line-height:1.1;
-    }
-    .uploadTxt .t1{ font-weight: 950; font-size: 15px; }
-    .uploadTxt .t2{ color: var(--muted); font-size: 12px; }
-
-    .hintPill{
+    .taskTag{
       display:inline-flex;
       align-items:center;
-      gap: 8px;
+      justify-content:center;
+      min-width: 52px;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(190,245,255,.12);
+      background: rgba(255,255,255,.03);
       color: var(--muted);
       font-size: 12px;
       user-select:none;
-      width: fit-content;
+      white-space:nowrap;
     }
 
-    /* Editor */
+    /* EDITOR */
     #editor{ display:none; width:min(1100px,100%); }
     #editor.active{ display:block; }
-
     .toolbar{
       padding: 14px;
       display:flex;
@@ -306,12 +327,6 @@
       justify-content:space-between;
       gap:10px;
       flex-wrap:wrap;
-    }
-    .left, .right{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
     }
     .stageShell{
       width: min(1100px, 100%);
@@ -330,141 +345,7 @@
       touch-action:none;
     }
 
-    /* LIST: not cluttered -> focus area with 1~3 big cards */
-    #list{ display:none; width:min(1100px,100%); }
-    #list.active{ display:block; }
-
-    .listHeader{
-      padding: 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .seg{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .modeBtn{
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
-      padding: 10px 12px;
-      border-radius: 999px;
-      cursor:pointer;
-      font-weight: 900;
-      color: var(--text);
-      user-select:none;
-      transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .08s ease, background .18s ease;
-      overflow:hidden;
-      position:relative;
-      white-space:nowrap;
-    }
-    .modeBtn:hover{
-      border-color: rgba(130,220,255,.45);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.08);
-      filter: brightness(1.03);
-    }
-    .modeBtn:active{ transform: translateY(1px); }
-    .modeBtn.on{
-      border-color: rgba(130,220,255,.62);
-      background: rgba(130,220,255,.12);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.10);
-    }
-
-    .focusArea{
-      padding: 14px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 12px;
-      align-items:stretch;
-    }
-    @media (max-width: 920px){
-      .focusArea{ grid-template-columns: 1fr; }
-    }
-
-    .focusMain{
-      border-radius: 20px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-    }
-
-    .bigTask{
-      border-radius: 20px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
-      padding: 16px;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 18px 45px rgba(0,0,0,.18);
-    }
-    .bigTask::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(130,220,255,.12), transparent 60%);
-      transform: rotate(-8deg);
-      pointer-events:none;
-    }
-    .bigTaskTitle{
-      position:relative;
-      font-weight: 980;
-      letter-spacing:.2px;
-      font-size: 22px;
-      line-height: 1.2;
-      margin-bottom: 8px;
-    }
-    .bigTaskMeta{
-      position:relative;
-      color: var(--muted);
-      font-size: 13px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap: 6px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(190,245,255,.12);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
-      width: fit-content;
-    }
-
-    .focusSide{
-      border-radius: 20px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      justify-content:center;
-    }
-    .sideTitle{
-      font-weight: 950;
-      letter-spacing:.2px;
-      font-size: 14px;
-      color: rgba(244,252,255,.9);
-    }
-    .sideText{
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
+    /* toast */
     .toast{
       position: fixed;
       left: 50%;
@@ -497,101 +378,60 @@
   <div class="wrap">
     <div class="top">
       <div class="title"><span class="dot"></span>プランク集会</div>
-      <div class="sub">画像:1600×900 / スタンプ:長押し</div>
+      <div class="miniRow">
+        <span class="mini">🖼1600×900</span>
+        <span class="mini">🫧長押し</span>
+      </div>
     </div>
 
     <!-- HOME -->
     <section id="home" class="panel">
-      <div class="homeGrid">
-        <div class="hero">
-          <div class="heroBig">やることを<br>“少なく”見せる</div>
-          <div class="heroSmall">
-            一覧は最大3つだけ。迷わないように “今の候補” を出します。<br>
-            画像編集は「読み込み」から。
+      <div class="homeRow">
+        <!-- illustration only -->
+        <div class="iconCard">
+          <div class="iconLine" aria-label="操作イラスト">
+            <span title="一覧">📋</span>
+            <span title="画像">🖼</span>
+            <span title="長押し">🫧</span>
+            <span title="保存">⬇️</span>
           </div>
-          <div class="hintPill">💧 長押しでスタンプ</div>
         </div>
 
-        <div class="homeActions">
-          <button id="openListBtn" class="btn list uploadBtn">
-            <div class="uploadLeft">
-              <div class="badgeIcon" style="box-shadow:0 0 0 8px rgba(170,150,255,.10);">≡</div>
-              <div class="uploadTxt">
-                <div class="t1">整い一覧</div>
-                <div class="t2">おすすめを3つだけ出す</div>
-              </div>
-            </div>
-            <div style="opacity:.9;">→</div>
-          </button>
-
-          <button id="uploadBtn" class="btn primary uploadBtn">
-            <div class="uploadLeft">
-              <div class="badgeIcon">⇪</div>
-              <div class="uploadTxt">
-                <div class="t1">画像を読み込む</div>
-                <div class="t2">1600×900のみ</div>
-              </div>
-            </div>
-            <div style="opacity:.9;">＋</div>
-          </button>
-
-          <button id="downloadWakuBtn" class="btn frame uploadBtn">
-            <div class="uploadLeft">
-              <div class="badgeIcon" style="box-shadow:0 0 0 8px rgba(100,240,180,.10);">▢</div>
-              <div class="uploadTxt">
-                <div class="t1">waku1 を保存</div>
-                <div class="t2">枠画像のダウンロード</div>
-              </div>
-            </div>
-            <div style="opacity:.9;">↓</div>
-          </button>
-
+        <div class="homeBtns">
+          <button id="openListBtn" class="btn list">📋 整い一覧</button>
+          <button id="uploadBtn" class="btn primary">🖼 読み込み</button>
+          <button id="downloadWakuBtn" class="btn frame">▢ waku1保存</button>
           <input id="fileInput" type="file" accept="image/*" />
         </div>
       </div>
     </section>
 
-    <!-- LIST (re-designed, low information) -->
+    <!-- LIST -->
     <section id="list" class="panel">
-      <div class="listHeader">
-        <div class="seg">
-          <button id="listBackBtn" class="btn">戻る</button>
-          <span class="tag" id="listState">おすすめ：ミックス3</span>
-        </div>
-        <div class="seg">
-          <button class="modeBtn on" id="modeMix">ミックス3</button>
-          <button class="modeBtn" id="modeClose">① 今日を閉じる</button>
-          <button class="modeBtn" id="modeTomorrow">② 明日を軽く</button>
-          <button class="modeBtn" id="modeTen">③ 10分</button>
+      <div class="head">
+        <button id="listBackBtn" class="btn">← 戻る</button>
+        <div class="modes">
+          <button id="modeMix" class="chip on">🌊 ミックス</button>
+          <button id="modeClose" class="chip">🌙 今日</button>
+          <button id="modeTomorrow" class="chip">🌤 明日</button>
+          <button id="modeTen" class="chip">⏱ 10分</button>
+          <button id="nextBtn" class="btn primary">🔄 次</button>
         </div>
       </div>
 
-      <div class="focusArea">
-        <div class="focusMain" id="focusMain"></div>
-
-        <div class="focusSide">
-          <div class="sideTitle">使い方</div>
-          <div class="sideText">
-            まずはこの画面に出たものだけ見ればOK。<br>
-            “次”で候補を入れ替えます。
-          </div>
-          <button id="nextBtn" class="btn primary">次の候補</button>
-          <button id="showMoreBtn" class="btn">もっと見る（+3）</button>
-          <button id="resetViewBtn" class="btn">3つに戻す</button>
-        </div>
-      </div>
+      <div class="focus" id="focusMain"></div>
     </section>
 
     <!-- EDITOR -->
     <section id="editor">
       <div class="panel toolbar">
-        <div class="left">
-          <button id="backBtn" class="btn">戻る</button>
-          <button id="resetBtn" class="btn danger">リセット</button>
-          <span class="tag">長押しでスタンプ</span>
+        <div class="left" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <button id="backBtn" class="btn">← 戻る</button>
+          <button id="resetBtn" class="btn danger">🧹 リセット</button>
+          <span class="mini">🫧 長押し</span>
         </div>
-        <div class="right">
-          <button id="downloadBtn" class="btn frame">ダウンロード</button>
+        <div class="right" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+          <button id="downloadBtn" class="btn frame">⬇️ 保存</button>
         </div>
       </div>
 
@@ -605,90 +445,49 @@
 
 <script>
 (() => {
-  // ====== stamp system (keep) ======
-  const STAMP_SIZE_PX = 180;   // ←スタンプサイズ
+  // ====== stamp system ======
+  const STAMP_SIZE_PX = 180;
   const HOLD_MS = 3000;
 
   const WAKU_CANDIDATES = ["waku1.PNG","waku1.png","WAKU1.PNG","WAKU1.png"];
   const SUTA_CANDIDATES = ["suta.PNG","suta.png","SUTA.PNG","SUTA.png"];
 
-  // ====== original data (your full list kept) ======
-  const FULL = {
-    close: [
-      "かばんを空にする","ポケットを空にする","財布の中を整える","レシートを捨てる","水筒を洗う","弁当箱を出す",
-      "充電をさす","イヤホンをしまう","名札を戻す","仕事道具を定位置へ","机の上を1つ戻す","ゴミを1つ捨てる",
-      "今日の紙を重ねる","ペンをまとめる","パソコンを閉じる","アプリを全部閉じる","通知を消す","靴をそろえる",
-      "上着をかける","鍵を定位置へ","タオルを干す","洗濯物をかごへ","郵便物をまとめる","テーブルをふく",
-      "コップを洗う","今日使った物を1つ戻す","明らかなゴミを捨てる","机の中央を空ける","リモコンをそろえる","玄関を整える"
-    ],
-    tomorrow: [
-      "明日の服を出す","下着を用意する","靴下を用意する","かばんに入れる物を置く","水筒を用意する","お弁当箱を出しておく",
-      "目覚ましをセット","充電を確認する","明日の予定を見る","必要な紙を入れる","ICカードを入れる","マスクを用意",
-      "ハンカチを出す","財布を確認","傘を準備","上着を玄関へ","ゴミ出し袋を置く","朝飲む薬を置く",
-      "朝のコップを出す","朝の靴を出す","明日の持ち物を並べる","朝食の材料を出す","弁当の材料を前に出す",
-      "朝使うタオルをかける","朝の道を確認","アラームを2つにする","明日の天気を見る","出発時間を確認",
-      "朝の動線を空ける","玄関を通れる状態にする"
-    ],
-    ten: [
-      "机全体を整える","かばん全部整理","引き出し1段整理","冷蔵庫の1段整理","洗面台を整える","玄関を掃く",
-      "洗濯を回す","洗濯を干す","ベッドを整える","床をコロコロする","棚の上を全部ふく","書類をまとめる",
-      "服を3枚たたむ","本を5冊戻す","ゴミ箱を空にする","洗い物全部やる","テーブル全体を片づける","カーテンを整える",
-      "照明のほこりを取る","電子レンジ内をふく","靴箱を整える","冷蔵庫の期限確認","不要な物を3つ捨てる",
-      "アプリを整理","写真を10枚消す","メールを10通消す","収納の1区画整える","机の下を整える",
-      "ソファまわり整理","観葉植物の水やり"
-    ]
-  };
-
-  // ====== NEW: low-information curated "micro list" ======
-  // 読みやすさ最優先。ここは私の提案で「少数だけ」厳選しています。
-  // FULLの中から、迷いにくく取り掛かりやすいものを選びました。
+  // ====== micro tasks (ALL <= 20 chars) ======
   const MICRO = {
     close: [
-      "ゴミを1つ捨てる",
-      "机の上を1つ戻す",
+      "ゴミ1つ捨てる",
+      "机を1つ戻す",
       "靴をそろえる",
-      "鍵を定位置へ",
-      "コップを洗う",
-      "充電をさす",
-      "通知を消す"
+      "鍵を戻す",
+      "通知オフ",
+      "充電さす"
     ],
     tomorrow: [
-      "明日の服を出す",
-      "目覚ましをセット",
-      "明日の予定を見る",
-      "水筒を用意する",
-      "出発時間を確認",
-      "ICカードを入れる",
-      "明日の天気を見る"
+      "服を出す",
+      "予定を見る",
+      "アラーム設定",
+      "天気を見る",
+      "IC入れる",
+      "水筒準備"
     ],
     ten: [
-      "床をコロコロする",
-      "洗い物全部やる",
-      "洗面台を整える",
-      "ベッドを整える",
-      "冷蔵庫の期限確認",
-      "不要な物を3つ捨てる",
-      "本を5冊戻す"
+      "床コロコロ",
+      "洗面台ふく",
+      "洗い物終える",
+      "ベッド整える",
+      "不要3つ捨て",
+      "本5冊戻す"
     ]
-  };
-
-  const CAT_LABEL = {
-    mix: "おすすめ：ミックス3",
-    close: "① 今日を閉じる",
-    tomorrow: "② 明日を軽く",
-    ten: "③ 10分"
   };
 
   // ====== DOM ======
   const toast = document.getElementById("toast");
-
   const home = document.getElementById("home");
   const list = document.getElementById("list");
   const editor = document.getElementById("editor");
 
   const openListBtn = document.getElementById("openListBtn");
   const listBackBtn = document.getElementById("listBackBtn");
-  const listState = document.getElementById("listState");
 
   const uploadBtn = document.getElementById("uploadBtn");
   const downloadWakuBtn = document.getElementById("downloadWakuBtn");
@@ -700,8 +499,6 @@
 
   const focusMain = document.getElementById("focusMain");
   const nextBtn = document.getElementById("nextBtn");
-  const showMoreBtn = document.getElementById("showMoreBtn");
-  const resetViewBtn = document.getElementById("resetViewBtn");
 
   const modeMix = document.getElementById("modeMix");
   const modeClose = document.getElementById("modeClose");
@@ -722,12 +519,12 @@
   let holdX = 0, holdY = 0;
   let holdCommitted = false;
 
-  // ====== List state ======
+  // ====== list state ======
   let mode = "mix"; // mix | close | tomorrow | ten
-  let showCount = 3;
 
-  function showToast(msg, ms=2200){
-    toast.textContent = msg;
+  function showToast(msg, ms=1500){
+    // msg also kept short
+    toast.textContent = msg.slice(0, 20);
     toast.classList.add("show");
     clearTimeout(showToast._t);
     showToast._t = setTimeout(()=>toast.classList.remove("show"), ms);
@@ -735,8 +532,8 @@
 
   function setView(which){
     home.style.display = (which === "home") ? "block" : "none";
-    list.style.display = (which === "list") ? "block" : "none";
-    editor.style.display = (which === "editor") ? "block" : "none";
+    list.classList.toggle("active", which === "list");
+    editor.classList.toggle("active", which === "editor");
   }
 
   function loadFirstExisting(candidates){
@@ -756,10 +553,10 @@
 
   async function initAssets(){
     try{ wakuImg = (await loadFirstExisting(WAKU_CANDIDATES)).img; }
-    catch{ showToast("waku1.PNG が見つからない"); }
+    catch{ showToast("waku1なし"); }
 
     try{ sutaImg = (await loadFirstExisting(SUTA_CANDIDATES)).img; }
-    catch{ showToast("suta.PNG が見つからない"); }
+    catch{ showToast("sutaなし"); }
   }
 
   function downloadBlob(blob, filename){
@@ -772,13 +569,12 @@
     setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
   }
 
-  // ====== Splash ======
+  // ====== splash ======
   function splash(el, x, y){
     const rect = el.getBoundingClientRect();
     const rx = x / rect.width;
     const ry = y / rect.height;
-    const count = 8 + Math.floor(Math.random() * 5);
-
+    const count = 7 + Math.floor(Math.random() * 4);
     for(let i=0;i<count;i++){
       const d = document.createElement("span");
       d.className = "droplet";
@@ -797,7 +593,6 @@
       d.addEventListener("animationend", () => d.remove(), { once:true });
     }
   }
-
   function bindSplash(el){
     let last = 0;
     el.addEventListener("pointerenter", (e) => {
@@ -806,7 +601,7 @@
     });
     el.addEventListener("pointermove", (e) => {
       const now = performance.now();
-      if(now - last < 160) return;
+      if(now - last < 170) return;
       last = now;
       const r = el.getBoundingClientRect();
       splash(el, e.clientX - r.left, e.clientY - r.top);
@@ -859,7 +654,7 @@
       }
     }
 
-    // ring on top
+    // ring
     if(holding){
       const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
       const r = 54;
@@ -889,15 +684,11 @@
       if(t >= 1 && !holdCommitted){
         holdCommitted = true;
         stamps.push({x: holdX, y: holdY, size: STAMP_SIZE_PX});
-        showToast("スタンプOK");
+        showToast("OK");
       }
     }
   }
-
-  function loop(now){
-    draw(now);
-    requestAnimationFrame(loop);
-  }
+  function loop(now){ draw(now); requestAnimationFrame(loop); }
 
   function getCanvasPoint(e){
     const rect = canvas.getBoundingClientRect();
@@ -910,8 +701,8 @@
   }
 
   canvas.addEventListener("pointerdown", (e) => {
-    if(!baseImg){ showToast("先に画像を読み込む"); return; }
-    if(!sutaImg){ showToast("suta.PNG がない"); return; }
+    if(!baseImg){ showToast("画像なし"); return; }
+    if(!sutaImg){ showToast("sutaなし"); return; }
     const p = getCanvasPoint(e);
     holding = true;
     holdCommitted = false;
@@ -928,7 +719,7 @@
   canvas.addEventListener("pointerup", end);
   canvas.addEventListener("pointercancel", end);
 
-  // ====== LIST logic (low info) ======
+  // ====== list render ======
   function shuffled(arr){
     const a = arr.slice();
     for(let i=a.length-1;i>0;i--){
@@ -937,84 +728,45 @@
     }
     return a;
   }
-
-  function mixPick(n){
-    // mix: 1 from each category when possible
-    const a = shuffled(MICRO.close);
-    const b = shuffled(MICRO.tomorrow);
-    const c = shuffled(MICRO.ten);
-    const out = [];
-    // rotate categories
-    const seq = [ ["close",a], ["tomorrow",b], ["ten",c] ];
-    let idx = 0;
-    while(out.length < n){
-      const [cat, pool] = seq[idx % 3];
-      if(pool.length){
-        out.push({ cat, text: pool.shift() });
-      }else{
-        // fallback from full micro mix
-        const all = shuffled([...MICRO.close, ...MICRO.tomorrow, ...MICRO.ten]);
-        out.push({ cat:"mix", text: all[out.length % all.length] });
-      }
-      idx++;
-    }
-    return out;
-  }
-
-  function catPick(cat, n){
-    const pool = shuffled(MICRO[cat]);
-    const out = [];
-    for(let i=0;i<n;i++){
-      out.push({ cat, text: pool[i % pool.length] });
-    }
-    return out;
-  }
-
-  function catTitle(cat){
-    if(cat === "close") return "🌙 今日を閉じる";
-    if(cat === "tomorrow") return "🌙 明日を軽く";
-    if(cat === "ten") return "🌙 10分";
-    return "🌊 おすすめ";
+  function pick3(){
+    if(mode === "close") return shuffled(MICRO.close).slice(0,3).map(t=>({t, tag:"🌙"}));
+    if(mode === "tomorrow") return shuffled(MICRO.tomorrow).slice(0,3).map(t=>({t, tag:"🌤"}));
+    if(mode === "ten") return shuffled(MICRO.ten).slice(0,3).map(t=>({t, tag:"⏱"}));
+    // mix: 1 each
+    const a = shuffled(MICRO.close)[0];
+    const b = shuffled(MICRO.tomorrow)[0];
+    const c = shuffled(MICRO.ten)[0];
+    return [{t:a, tag:"🌙"},{t:b, tag:"🌤"},{t:c, tag:"⏱"}];
   }
 
   function renderList(){
-    listState.textContent = CAT_LABEL[mode];
-
-    let items = [];
-    if(mode === "mix") items = mixPick(showCount);
-    if(mode === "close") items = catPick("close", showCount);
-    if(mode === "tomorrow") items = catPick("tomorrow", showCount);
-    if(mode === "ten") items = catPick("ten", showCount);
-
     focusMain.innerHTML = "";
-    items.forEach((it, i) => {
-      const card = document.createElement("div");
-      card.className = "bigTask";
-      card.innerHTML = `
-        <div class="bigTaskTitle">${it.text}</div>
-        <div class="bigTaskMeta">
-          <span class="tag">${catTitle(it.cat)}</span>
-          <span style="color:rgba(244,252,255,.65); font-weight:900;">#${i+1}</span>
+    pick3().forEach(item => {
+      const el = document.createElement("div");
+      el.className = "task";
+      // text is guaranteed short (<= 20)
+      el.innerHTML = `
+        <div class="taskLine">
+          <div class="taskText">${item.t}</div>
+          <div class="taskTag">${item.tag}</div>
         </div>
       `;
-      focusMain.appendChild(card);
-      bindSplash(card);
+      focusMain.appendChild(el);
+      bindSplash(el);
     });
   }
 
   function setMode(newMode){
     mode = newMode;
-    // toggle button UI
-    [modeMix, modeClose, modeTomorrow, modeTen].forEach(b => b.classList.remove("on"));
+    [modeMix, modeClose, modeTomorrow, modeTen].forEach(b=>b.classList.remove("on"));
     if(newMode === "mix") modeMix.classList.add("on");
     if(newMode === "close") modeClose.classList.add("on");
     if(newMode === "tomorrow") modeTomorrow.classList.add("on");
     if(newMode === "ten") modeTen.classList.add("on");
-    showCount = 3;
     renderList();
   }
 
-  // ====== HOME events ======
+  // ====== Home events ======
   uploadBtn.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", () => {
@@ -1030,7 +782,7 @@
         stamps = [];
         cancelHold();
         setView("editor");
-        showToast("読み込みOK");
+        showToast("OK");
       }else{
         showToast("1600×900のみ");
         URL.revokeObjectURL(url);
@@ -1038,7 +790,7 @@
       }
     };
     img.onerror = () => {
-      showToast("読み込み失敗");
+      showToast("失敗");
       URL.revokeObjectURL(url);
       fileInput.value = "";
     };
@@ -1054,7 +806,7 @@
         return;
       }catch{}
     }
-    showToast("waku1 がない");
+    showToast("waku1なし");
   });
 
   openListBtn.addEventListener("click", () => {
@@ -1064,27 +816,14 @@
 
   listBackBtn.addEventListener("click", () => setView("home"));
 
-  // ====== list events ======
+  // list controls
   modeMix.addEventListener("click", () => setMode("mix"));
   modeClose.addEventListener("click", () => setMode("close"));
   modeTomorrow.addEventListener("click", () => setMode("tomorrow"));
   modeTen.addEventListener("click", () => setMode("ten"));
+  nextBtn.addEventListener("click", () => renderList());
 
-  nextBtn.addEventListener("click", () => {
-    renderList();
-  });
-
-  showMoreBtn.addEventListener("click", () => {
-    showCount = Math.min(12, showCount + 3);
-    renderList();
-  });
-
-  resetViewBtn.addEventListener("click", () => {
-    showCount = 3;
-    renderList();
-  });
-
-  // ====== editor events ======
+  // editor controls
   backBtn.addEventListener("click", () => {
     baseImg = null;
     stamps = [];
@@ -1092,25 +831,24 @@
     fileInput.value = "";
     setView("home");
   });
-
   resetBtn.addEventListener("click", () => {
     stamps = [];
     cancelHold();
-    showToast("スタンプ消去");
+    showToast("消去");
   });
-
   downloadBtn.addEventListener("click", () => {
-    if(!baseImg){ showToast("画像がない"); return; }
+    if(!baseImg){ showToast("画像なし"); return; }
     canvas.toBlob((blob) => {
-      if(!blob){ showToast("保存失敗"); return; }
+      if(!blob){ showToast("失敗"); return; }
       downloadBlob(blob, "stamped.png");
     }, "image/png");
   });
 
-  // ====== init splashes ======
-  function bindBaseSplashes(){
-    [openListBtn, uploadBtn, downloadWakuBtn, nextBtn, showMoreBtn, resetViewBtn,
-     modeMix, modeClose, modeTomorrow, modeTen, listBackBtn, backBtn, resetBtn, downloadBtn
+  // ====== splash bindings ======
+  function bindAll(){
+    [openListBtn, uploadBtn, downloadWakuBtn, listBackBtn,
+     modeMix, modeClose, modeTomorrow, modeTen, nextBtn,
+     backBtn, resetBtn, downloadBtn
     ].forEach(bindSplash);
   }
 
@@ -1118,7 +856,7 @@
   (async () => {
     initBubbles();
     await initAssets();
-    bindBaseSplashes();
+    bindAll();
     setMode("mix");
     setView("home");
     requestAnimationFrame(loop);
