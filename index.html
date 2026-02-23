@@ -6,19 +6,32 @@
   <title>プランク集会</title>
   <style>
     :root{
-      --text: rgba(240,250,255,.92);
-      --muted: rgba(240,250,255,.62);
-      --glass: rgba(10, 26, 45, .42);
-      --glass2: rgba(10, 26, 45, .26);
-      --border: rgba(180, 240, 255, .18);
-      --accent: rgba(130, 220, 255, .95);
-      --ok: rgba(100, 240, 180, .92);
-      --danger: rgba(255, 130, 150, .92);
-      --shadow: 0 18px 45px rgba(0,0,0,.35);
-      --r: 18px;
+      --bg1:#061a2a;
+      --bg2:#020a14;
 
-      --btn-bg: rgba(20, 45, 70, .34);
-      --btn-bd: rgba(180, 240, 255, .18);
+      --text: rgba(244,252,255,.95);
+      --muted: rgba(244,252,255,.62);
+
+      --glass: rgba(10, 26, 45, .48);
+      --glass2: rgba(10, 26, 45, .30);
+      --border: rgba(190, 245, 255, .18);
+
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --r: 20px;
+
+      /* semantic colors */
+      --primary: rgba(130, 220, 255, .98);    /* upload / main */
+      --primarySoft: rgba(130, 220, 255, .14);
+
+      --list: rgba(170, 150, 255, .95);       /* list */
+      --listSoft: rgba(170, 150, 255, .14);
+
+      --frame: rgba(100, 240, 180, .95);      /* waku */
+      --frameSoft: rgba(100, 240, 180, .14);
+
+      --danger: rgba(255, 130, 150, .95);
+      --dangerSoft: rgba(255, 130, 150, .12);
+
       --focus: rgba(130,220,255,.55);
     }
 
@@ -29,14 +42,14 @@
       color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", Arial;
       overflow-x:hidden;
-
       background:
         radial-gradient(1100px 700px at 10% 10%, rgba(130,220,255,.22), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(100,240,180,.12), transparent 62%),
-        radial-gradient(900px 600px at 70% 95%, rgba(70,140,255,.10), transparent 55%),
-        linear-gradient(180deg, #061a2a 0%, #03121f 55%, #020a14 100%);
+        radial-gradient(900px 600px at 90% 20%, rgba(170,150,255,.12), transparent 62%),
+        radial-gradient(900px 600px at 70% 95%, rgba(100,240,180,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg1) 0%, #03121f 55%, var(--bg2) 100%);
     }
 
+    /* caustics */
     .caustics{
       position: fixed;
       inset: -30%;
@@ -58,7 +71,8 @@
       100%{ transform: translate3d(-1%, -1%, 0) rotate(-6deg) scale(1.02); }
     }
 
-    .bubbles{ position:fixed; inset:0; pointer-events:none; opacity:.35; }
+    /* bubbles */
+    .bubbles{ position:fixed; inset:0; pointer-events:none; opacity:.32; }
     .bubble{
       position:absolute;
       width: 10px; height: 10px;
@@ -80,91 +94,65 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      padding: 26px 18px 30px;
+      padding: 26px 18px 32px;
       gap: 14px;
     }
 
-    /* Title (top, stylish but minimal) */
-    .brand{
+    /* Header */
+    .top{
       width: min(1100px, 100%);
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap:12px;
+      gap: 12px;
       padding: 6px 2px 2px;
     }
-    .brand .name{
+    .title{
       display:flex;
       align-items:center;
-      gap:10px;
-      letter-spacing:.2px;
-      font-weight: 900;
-      font-size: 20px;
-      text-shadow: 0 8px 25px rgba(0,0,0,.35);
+      gap: 10px;
+      font-weight: 950;
+      letter-spacing: .2px;
+      font-size: 22px;
+      text-shadow: 0 10px 28px rgba(0,0,0,.35);
     }
-    .brand .dot{
-      width:10px; height:10px; border-radius:999px;
-      background: var(--accent);
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: var(--primary);
       box-shadow: 0 0 0 9px rgba(130,220,255,.12);
     }
-    .brand .mini{
+    .sub{
       color: var(--muted);
       font-size: 12px;
-      text-align:right;
-      line-height: 1.25;
-      padding-bottom: 2px;
+      line-height:1.2;
       user-select:none;
-      white-space: nowrap;
+      white-space:nowrap;
+      text-align:right;
     }
 
-    /* Floating standalone panel */
+    /* Panels */
     .panel{
       width:min(1100px, 100%);
       border: 1px solid var(--border);
       background: linear-gradient(180deg, var(--glass), var(--glass2));
       border-radius: var(--r);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 14px;
-    }
-
-    /* HOME layout (center row, left list button, right upload+download group) */
-    #home{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .homeRow{
-      width: min(900px, 100%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap: 14px;
-      flex-wrap:wrap;
-    }
-    .homeLeft{
-      flex: 0 0 auto;
-      display:flex;
-      justify-content:center;
-    }
-    .homeRight{
-      flex: 1 1 520px;
-      display:flex;
-      justify-content:center;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     /* Buttons */
     .btn{
       position:relative;
       appearance:none;
-      border: 1px solid var(--btn-bd);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border: 1px solid rgba(190,245,255,.18);
+      background: rgba(255,255,255,.05);
       color: var(--text);
       padding: 12px 14px;
       border-radius: 16px;
       cursor:pointer;
-      font-weight: 850;
+      font-weight: 900;
       letter-spacing:.2px;
       user-select:none;
       transition: transform .08s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, filter .18s ease;
@@ -172,7 +160,6 @@
       white-space: nowrap;
     }
     .btn:hover{
-      border-color: rgba(130,220,255,.48);
       box-shadow: 0 0 0 4px rgba(130,220,255,.10), 0 18px 40px rgba(0,0,0,.25);
       filter: brightness(1.03);
     }
@@ -182,261 +169,29 @@
       box-shadow: 0 0 0 5px rgba(130,220,255,.18);
       border-color: rgba(130,220,255,.55);
     }
-    .btn.ok{ border-color: rgba(100,240,180,.35); }
-    .btn.ok:hover{
-      border-color: rgba(100,240,180,.60);
-      box-shadow: 0 0 0 4px rgba(100,240,180,.12), 0 18px 40px rgba(0,0,0,.25);
+
+    /* color roles */
+    .btn.primary{
+      border-color: rgba(130,220,255,.55);
+      background: linear-gradient(180deg, rgba(130,220,255,.22), rgba(255,255,255,.04));
     }
-    .btn.danger{ border-color: rgba(255,130,150,.35); }
-    .btn.danger:hover{
-      border-color: rgba(255,130,150,.62);
-      box-shadow: 0 0 0 4px rgba(255,130,150,.12), 0 18px 40px rgba(0,0,0,.25);
+    .btn.primary:hover{
+      box-shadow: 0 0 0 4px rgba(130,220,255,.14), 0 20px 46px rgba(0,0,0,.25);
+    }
+    .btn.list{
+      border-color: rgba(170,150,255,.55);
+      background: linear-gradient(180deg, rgba(170,150,255,.20), rgba(255,255,255,.04));
+    }
+    .btn.frame{
+      border-color: rgba(100,240,180,.55);
+      background: linear-gradient(180deg, rgba(100,240,180,.18), rgba(255,255,255,.04));
+    }
+    .btn.danger{
+      border-color: rgba(255,130,150,.55);
+      background: linear-gradient(180deg, rgba(255,130,150,.18), rgba(255,255,255,.04));
     }
 
-    /* Upload group: one container, two clickable zones */
-    .uploadGroup{
-      width: min(560px, 100%);
-      display:flex;
-      align-items:stretch;
-      border: 1px solid rgba(180,240,255,.22);
-      border-radius: 18px;
-      overflow:hidden;
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 18px 45px rgba(0,0,0,.18);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .uploadMain{
-      flex: 1 1 auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap: 10px;
-      padding: 14px 16px;
-      cursor:pointer;
-      user-select:none;
-      position:relative;
-      overflow:hidden;
-      transition: background .18s ease, border-color .18s ease, filter .18s ease;
-    }
-    .uploadMain:hover{
-      background: rgba(255,255,255,.07);
-      filter: brightness(1.03);
-    }
-    .uploadIcon{
-      width: 28px; height: 28px; border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.06));
-      border: 1px solid rgba(180,240,255,.20);
-      box-shadow: 0 0 0 6px rgba(130,220,255,.08);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight: 900;
-      color: rgba(240,250,255,.9);
-    }
-    .uploadText{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      line-height: 1.15;
-    }
-    .uploadText .t1{ font-weight: 900; letter-spacing:.2px; }
-    .uploadText .t2{ font-size: 12px; color: var(--muted); }
-
-    .uploadSide{
-      flex: 0 0 auto;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 0;
-      border-left: 1px solid rgba(180,240,255,.16);
-      min-width: 120px;
-      position:relative;
-      overflow:hidden;
-      cursor:pointer;
-      user-select:none;
-      transition: background .18s ease, filter .18s ease;
-    }
-    .uploadSide:hover{
-      background: rgba(255,255,255,.06);
-      filter: brightness(1.03);
-    }
-    .sideLabel{
-      padding: 14px 14px;
-      font-weight: 900;
-      letter-spacing:.2px;
-      color: rgba(230,255,245,.92);
-    }
-
-    .pill{
-      color: var(--muted);
-      font-size: 12px;
-      padding: 10px 12px;
-      border: 1px solid rgba(180,240,255,.16);
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-      user-select:none;
-      white-space:nowrap;
-    }
-
-    /* Editor */
-    #editor{ display:none; width:min(1100px,100%); }
-    #editor.active{ display:block; }
-
-    .toolbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
-      padding: 14px;
-    }
-    .left, .right{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .stageShell{
-      width: min(1100px, 100%);
-      border: 1px solid rgba(180,240,255,.16);
-      border-radius: 20px;
-      overflow:hidden;
-      background: rgba(0,0,0,.28);
-      box-shadow: 0 22px 60px rgba(0,0,0,.35);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-    canvas{
-      width: 100%;
-      height: auto;
-      display:block;
-      touch-action:none;
-    }
-
-    /* List screen */
-    #list{ display:none; width:min(1100px,100%); }
-    #list.active{ display:block; }
-
-    .listTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      padding: 14px;
-    }
-    .seg{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .chip{
-      position:relative;
-      appearance:none;
-      border: 1px solid rgba(180,240,255,.16);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 999px;
-      cursor:pointer;
-      font-weight: 850;
-      letter-spacing:.2px;
-      user-select:none;
-      transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, filter .18s ease, transform .08s ease;
-      overflow:hidden;
-      white-space:nowrap;
-    }
-    .chip:hover{
-      border-color: rgba(130,220,255,.45);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.08);
-      filter: brightness(1.03);
-    }
-    .chip:active{ transform: translateY(1px); }
-    .chip.on{
-      border-color: rgba(130,220,255,.60);
-      background: rgba(130,220,255,.12);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.10);
-    }
-    .chip.disabled{
-      opacity:.45;
-      cursor:not-allowed;
-      filter:saturate(.6);
-    }
-
-    .cards{
-      padding: 12px 14px 16px;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap: 10px;
-    }
-    @media (max-width: 880px){
-      .cards{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
-    @media (max-width: 560px){
-      .cards{ grid-template-columns: 1fr; }
-      .brand .mini{ display:none; }
-    }
-
-    .taskCard{
-      border: 1px solid rgba(180,240,255,.16);
-      background: rgba(255,255,255,.04);
-      border-radius: 18px;
-      padding: 14px 14px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.18);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      min-height: 96px;
-      position:relative;
-      overflow:hidden;
-    }
-    .taskCard::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(130,220,255,.12), transparent 60%);
-      transform: rotate(-8deg);
-      pointer-events:none;
-    }
-    .taskTitle{
-      font-weight: 900;
-      letter-spacing:.2px;
-      font-size: 15px;
-      line-height: 1.25;
-      position:relative;
-    }
-    .taskMeta{
-      font-size: 12px;
-      color: var(--muted);
-      position:relative;
-    }
-
-    .toast{
-      position: fixed;
-      left: 50%;
-      top: 16px;
-      transform: translateX(-50%);
-      background: rgba(10, 26, 45, .72);
-      border: 1px solid rgba(180,240,255,.18);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 999px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
-      font-size: 13px;
-      display:none;
-      max-width: min(92vw, 900px);
-      z-index: 9999;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .toast.show{ display:block; }
-
-    /* Splash droplets */
+    /* splash droplets */
     .droplet{
       position:absolute;
       left: var(--x);
@@ -445,9 +200,8 @@
       height: var(--s);
       border-radius: 999px;
       pointer-events:none;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.90), rgba(255,255,255,.25) 35%, transparent 70%);
-      border: 1px solid rgba(200,250,255,.28);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.90), rgba(255,255,255,.25) 35%, transparent 70%);
+      border: 1px solid rgba(200,250,255,.26);
       transform: translate(-50%,-50%) scale(.5);
       opacity: .0;
       animation: splash 650ms ease-out forwards;
@@ -462,7 +216,276 @@
       }
     }
 
-    /* Hidden file input */
+    /* HOME layout: clear hierarchy */
+    #home{ padding: 16px; }
+    .homeGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .homeGrid{ grid-template-columns: 1fr; }
+    }
+
+    .hero{
+      border-radius: 18px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.03);
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .heroBig{
+      font-weight: 950;
+      font-size: 20px;
+      line-height: 1.15;
+      letter-spacing:.2px;
+    }
+    .heroSmall{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .homeActions{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      justify-content:center;
+    }
+
+    /* Upload button as big CTA */
+    .uploadBtn{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 18px;
+    }
+    .uploadLeft{
+      display:flex; align-items:center; gap: 12px;
+    }
+    .badgeIcon{
+      width: 34px; height: 34px; border-radius: 999px;
+      display:flex; align-items:center; justify-content:center;
+      border: 1px solid rgba(190,245,255,.18);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 0 0 8px rgba(130,220,255,.10);
+      font-weight: 950;
+    }
+    .uploadTxt{
+      display:flex; flex-direction:column; gap: 2px; line-height:1.1;
+    }
+    .uploadTxt .t1{ font-weight: 950; font-size: 15px; }
+    .uploadTxt .t2{ color: var(--muted); font-size: 12px; }
+
+    .hintPill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 12px;
+      user-select:none;
+      width: fit-content;
+    }
+
+    /* Editor */
+    #editor{ display:none; width:min(1100px,100%); }
+    #editor.active{ display:block; }
+
+    .toolbar{
+      padding: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .left, .right{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .stageShell{
+      width: min(1100px, 100%);
+      border: 1px solid rgba(190,245,255,.14);
+      border-radius: 22px;
+      overflow:hidden;
+      background: rgba(0,0,0,.28);
+      box-shadow: 0 22px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    canvas{
+      width: 100%;
+      height: auto;
+      display:block;
+      touch-action:none;
+    }
+
+    /* LIST: not cluttered -> focus area with 1~3 big cards */
+    #list{ display:none; width:min(1100px,100%); }
+    #list.active{ display:block; }
+
+    .listHeader{
+      padding: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .seg{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .modeBtn{
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 900;
+      color: var(--text);
+      user-select:none;
+      transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .08s ease, background .18s ease;
+      overflow:hidden;
+      position:relative;
+      white-space:nowrap;
+    }
+    .modeBtn:hover{
+      border-color: rgba(130,220,255,.45);
+      box-shadow: 0 0 0 4px rgba(130,220,255,.08);
+      filter: brightness(1.03);
+    }
+    .modeBtn:active{ transform: translateY(1px); }
+    .modeBtn.on{
+      border-color: rgba(130,220,255,.62);
+      background: rgba(130,220,255,.12);
+      box-shadow: 0 0 0 4px rgba(130,220,255,.10);
+    }
+
+    .focusArea{
+      padding: 14px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .focusArea{ grid-template-columns: 1fr; }
+    }
+
+    .focusMain{
+      border-radius: 20px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .bigTask{
+      border-radius: 20px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.04);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 18px 45px rgba(0,0,0,.18);
+    }
+    .bigTask::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(130,220,255,.12), transparent 60%);
+      transform: rotate(-8deg);
+      pointer-events:none;
+    }
+    .bigTaskTitle{
+      position:relative;
+      font-weight: 980;
+      letter-spacing:.2px;
+      font-size: 22px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .bigTaskMeta{
+      position:relative;
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(190,245,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: 12px;
+      user-select:none;
+      width: fit-content;
+    }
+
+    .focusSide{
+      border-radius: 20px;
+      border: 1px solid rgba(190,245,255,.14);
+      background: rgba(255,255,255,.03);
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      justify-content:center;
+    }
+    .sideTitle{
+      font-weight: 950;
+      letter-spacing:.2px;
+      font-size: 14px;
+      color: rgba(244,252,255,.9);
+    }
+    .sideText{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
+      background: rgba(10, 26, 45, .78);
+      border: 1px solid rgba(190,245,255,.18);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      font-size: 13px;
+      display:none;
+      max-width: min(92vw, 900px);
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .toast.show{ display:block; }
+
+    /* hidden input */
     #fileInput{ display:none; }
   </style>
 </head>
@@ -472,71 +495,91 @@
   <div class="bubbles" id="bubbles"></div>
 
   <div class="wrap">
-    <div class="brand">
-      <div class="name"><span class="dot"></span>プランク集会</div>
-      <div class="mini">1600×900 / long-press</div>
+    <div class="top">
+      <div class="title"><span class="dot"></span>プランク集会</div>
+      <div class="sub">画像:1600×900 / スタンプ:長押し</div>
     </div>
 
     <!-- HOME -->
     <section id="home" class="panel">
-      <div class="homeRow">
-        <div class="homeLeft">
-          <button id="openListBtn" class="btn">整い一覧</button>
+      <div class="homeGrid">
+        <div class="hero">
+          <div class="heroBig">やることを<br>“少なく”見せる</div>
+          <div class="heroSmall">
+            一覧は最大3つだけ。迷わないように “今の候補” を出します。<br>
+            画像編集は「読み込み」から。
+          </div>
+          <div class="hintPill">💧 長押しでスタンプ</div>
         </div>
 
-        <div class="homeRight">
-          <div class="uploadGroup" id="uploadGroup">
-            <div class="uploadMain" id="uploadMain" role="button" aria-label="画像を読み込む">
-              <div class="uploadIcon">⇪</div>
-              <div class="uploadText">
-                <div class="t1">画像を読み込む</div>
-                <div class="t2">1600×900</div>
+        <div class="homeActions">
+          <button id="openListBtn" class="btn list uploadBtn">
+            <div class="uploadLeft">
+              <div class="badgeIcon" style="box-shadow:0 0 0 8px rgba(170,150,255,.10);">≡</div>
+              <div class="uploadTxt">
+                <div class="t1">整い一覧</div>
+                <div class="t2">おすすめを3つだけ出す</div>
               </div>
             </div>
-            <div class="uploadSide" id="downloadWakuBtn" role="button" aria-label="waku1をダウンロード">
-              <div class="sideLabel">waku1</div>
+            <div style="opacity:.9;">→</div>
+          </button>
+
+          <button id="uploadBtn" class="btn primary uploadBtn">
+            <div class="uploadLeft">
+              <div class="badgeIcon">⇪</div>
+              <div class="uploadTxt">
+                <div class="t1">画像を読み込む</div>
+                <div class="t2">1600×900のみ</div>
+              </div>
             </div>
-          </div>
-        </div>
+            <div style="opacity:.9;">＋</div>
+          </button>
 
-        <div style="flex:0 0 auto; display:flex; justify-content:center;">
-          <span class="pill">長押しでスタンプ</span>
-        </div>
+          <button id="downloadWakuBtn" class="btn frame uploadBtn">
+            <div class="uploadLeft">
+              <div class="badgeIcon" style="box-shadow:0 0 0 8px rgba(100,240,180,.10);">▢</div>
+              <div class="uploadTxt">
+                <div class="t1">waku1 を保存</div>
+                <div class="t2">枠画像のダウンロード</div>
+              </div>
+            </div>
+            <div style="opacity:.9;">↓</div>
+          </button>
 
-        <input id="fileInput" type="file" accept="image/*" />
+          <input id="fileInput" type="file" accept="image/*" />
+        </div>
       </div>
     </section>
 
-    <!-- LIST -->
-    <section id="list">
-      <div class="panel listTop">
-        <div class="left">
+    <!-- LIST (re-designed, low information) -->
+    <section id="list" class="panel">
+      <div class="listHeader">
+        <div class="seg">
           <button id="listBackBtn" class="btn">戻る</button>
-          <span class="pill" id="listHint">3つ表示</span>
+          <span class="tag" id="listState">おすすめ：ミックス3</span>
         </div>
-        <div class="right seg">
-          <button class="chip on" data-mode="triple" id="modeTriple">シャッフル3</button>
-          <button class="chip" data-mode="random" id="modeRandom">ランダム1</button>
-          <button class="chip" data-mode="all" id="modeAll">全部</button>
-          <button class="chip disabled" title="開発中">人気順</button>
-        </div>
-      </div>
-
-      <div class="panel" style="padding: 12px 14px;">
-        <div class="seg" style="justify-content:space-between;">
-          <div class="seg">
-            <button class="chip on" data-cat="all" id="catAll">全部</button>
-            <button class="chip" data-cat="c1" id="cat1">① 今日を閉じる</button>
-            <button class="chip" data-cat="c2" id="cat2">② 明日を軽く</button>
-            <button class="chip" data-cat="c3" id="cat3">③ 10分</button>
-          </div>
-          <div class="seg">
-            <button id="nextBtn" class="btn ok">次</button>
-          </div>
+        <div class="seg">
+          <button class="modeBtn on" id="modeMix">ミックス3</button>
+          <button class="modeBtn" id="modeClose">① 今日を閉じる</button>
+          <button class="modeBtn" id="modeTomorrow">② 明日を軽く</button>
+          <button class="modeBtn" id="modeTen">③ 10分</button>
         </div>
       </div>
 
-      <div class="cards" id="cards"></div>
+      <div class="focusArea">
+        <div class="focusMain" id="focusMain"></div>
+
+        <div class="focusSide">
+          <div class="sideTitle">使い方</div>
+          <div class="sideText">
+            まずはこの画面に出たものだけ見ればOK。<br>
+            “次”で候補を入れ替えます。
+          </div>
+          <button id="nextBtn" class="btn primary">次の候補</button>
+          <button id="showMoreBtn" class="btn">もっと見る（+3）</button>
+          <button id="resetViewBtn" class="btn">3つに戻す</button>
+        </div>
+      </div>
     </section>
 
     <!-- EDITOR -->
@@ -545,10 +588,10 @@
         <div class="left">
           <button id="backBtn" class="btn">戻る</button>
           <button id="resetBtn" class="btn danger">リセット</button>
-          <span id="badge" class="pill">長押し</span>
+          <span class="tag">長押しでスタンプ</span>
         </div>
         <div class="right">
-          <button id="downloadBtn" class="btn ok">ダウンロード</button>
+          <button id="downloadBtn" class="btn frame">ダウンロード</button>
         </div>
       </div>
 
@@ -562,50 +605,78 @@
 
 <script>
 (() => {
-  // ====== スタンプサイズ（px / 1600x900基準） ======
-  const STAMP_SIZE_PX = 180;   // ←ここで変更
+  // ====== stamp system (keep) ======
+  const STAMP_SIZE_PX = 180;   // ←スタンプサイズ
   const HOLD_MS = 3000;
 
   const WAKU_CANDIDATES = ["waku1.PNG","waku1.png","WAKU1.PNG","WAKU1.png"];
   const SUTA_CANDIDATES = ["suta.PNG","suta.png","SUTA.PNG","SUTA.png"];
 
-  // ====== 整いデータ ======
-  const DATA = {
-    c1: {
-      title: "① 今日を閉じる",
-      icon: "🌙",
-      items: [
-        "かばんを空にする","ポケットを空にする","財布の中を整える","レシートを捨てる","水筒を洗う","弁当箱を出す",
-        "充電をさす","イヤホンをしまう","名札を戻す","仕事道具を定位置へ","机の上を1つ戻す","ゴミを1つ捨てる",
-        "今日の紙を重ねる","ペンをまとめる","パソコンを閉じる","アプリを全部閉じる","通知を消す","靴をそろえる",
-        "上着をかける","鍵を定位置へ","タオルを干す","洗濯物をかごへ","郵便物をまとめる","テーブルをふく",
-        "コップを洗う","今日使った物を1つ戻す","明らかなゴミを捨てる","机の中央を空ける","リモコンをそろえる","玄関を整える"
-      ]
-    },
-    c2: {
-      title: "② 明日を軽くする",
-      icon: "🌙",
-      items: [
-        "明日の服を出す","下着を用意する","靴下を用意する","かばんに入れる物を置く","水筒を用意する","お弁当箱を出しておく",
-        "目覚ましをセット","充電を確認する","明日の予定を見る","必要な紙を入れる","ICカードを入れる","マスクを用意",
-        "ハンカチを出す","財布を確認","傘を準備","上着を玄関へ","ゴミ出し袋を置く","朝飲む薬を置く",
-        "朝のコップを出す","朝の靴を出す","明日の持ち物を並べる","朝食の材料を出す","弁当の材料を前に出す",
-        "朝使うタオルをかける","朝の道を確認","アラームを2つにする","明日の天気を見る","出発時間を確認",
-        "朝の動線を空ける","玄関を通れる状態にする"
-      ]
-    },
-    c3: {
-      title: "③ ちょっと満足（10分系）",
-      icon: "🌙",
-      items: [
-        "机全体を整える","かばん全部整理","引き出し1段整理","冷蔵庫の1段整理","洗面台を整える","玄関を掃く",
-        "洗濯を回す","洗濯を干す","ベッドを整える","床をコロコロする","棚の上を全部ふく","書類をまとめる",
-        "服を3枚たたむ","本を5冊戻す","ゴミ箱を空にする","洗い物全部やる","テーブル全体を片づける","カーテンを整える",
-        "照明のほこりを取る","電子レンジ内をふく","靴箱を整える","冷蔵庫の期限確認","不要な物を3つ捨てる",
-        "アプリを整理","写真を10枚消す","メールを10通消す","収納の1区画整える","机の下を整える",
-        "ソファまわり整理","観葉植物の水やり"
-      ]
-    }
+  // ====== original data (your full list kept) ======
+  const FULL = {
+    close: [
+      "かばんを空にする","ポケットを空にする","財布の中を整える","レシートを捨てる","水筒を洗う","弁当箱を出す",
+      "充電をさす","イヤホンをしまう","名札を戻す","仕事道具を定位置へ","机の上を1つ戻す","ゴミを1つ捨てる",
+      "今日の紙を重ねる","ペンをまとめる","パソコンを閉じる","アプリを全部閉じる","通知を消す","靴をそろえる",
+      "上着をかける","鍵を定位置へ","タオルを干す","洗濯物をかごへ","郵便物をまとめる","テーブルをふく",
+      "コップを洗う","今日使った物を1つ戻す","明らかなゴミを捨てる","机の中央を空ける","リモコンをそろえる","玄関を整える"
+    ],
+    tomorrow: [
+      "明日の服を出す","下着を用意する","靴下を用意する","かばんに入れる物を置く","水筒を用意する","お弁当箱を出しておく",
+      "目覚ましをセット","充電を確認する","明日の予定を見る","必要な紙を入れる","ICカードを入れる","マスクを用意",
+      "ハンカチを出す","財布を確認","傘を準備","上着を玄関へ","ゴミ出し袋を置く","朝飲む薬を置く",
+      "朝のコップを出す","朝の靴を出す","明日の持ち物を並べる","朝食の材料を出す","弁当の材料を前に出す",
+      "朝使うタオルをかける","朝の道を確認","アラームを2つにする","明日の天気を見る","出発時間を確認",
+      "朝の動線を空ける","玄関を通れる状態にする"
+    ],
+    ten: [
+      "机全体を整える","かばん全部整理","引き出し1段整理","冷蔵庫の1段整理","洗面台を整える","玄関を掃く",
+      "洗濯を回す","洗濯を干す","ベッドを整える","床をコロコロする","棚の上を全部ふく","書類をまとめる",
+      "服を3枚たたむ","本を5冊戻す","ゴミ箱を空にする","洗い物全部やる","テーブル全体を片づける","カーテンを整える",
+      "照明のほこりを取る","電子レンジ内をふく","靴箱を整える","冷蔵庫の期限確認","不要な物を3つ捨てる",
+      "アプリを整理","写真を10枚消す","メールを10通消す","収納の1区画整える","机の下を整える",
+      "ソファまわり整理","観葉植物の水やり"
+    ]
+  };
+
+  // ====== NEW: low-information curated "micro list" ======
+  // 読みやすさ最優先。ここは私の提案で「少数だけ」厳選しています。
+  // FULLの中から、迷いにくく取り掛かりやすいものを選びました。
+  const MICRO = {
+    close: [
+      "ゴミを1つ捨てる",
+      "机の上を1つ戻す",
+      "靴をそろえる",
+      "鍵を定位置へ",
+      "コップを洗う",
+      "充電をさす",
+      "通知を消す"
+    ],
+    tomorrow: [
+      "明日の服を出す",
+      "目覚ましをセット",
+      "明日の予定を見る",
+      "水筒を用意する",
+      "出発時間を確認",
+      "ICカードを入れる",
+      "明日の天気を見る"
+    ],
+    ten: [
+      "床をコロコロする",
+      "洗い物全部やる",
+      "洗面台を整える",
+      "ベッドを整える",
+      "冷蔵庫の期限確認",
+      "不要な物を3つ捨てる",
+      "本を5冊戻す"
+    ]
+  };
+
+  const CAT_LABEL = {
+    mix: "おすすめ：ミックス3",
+    close: "① 今日を閉じる",
+    tomorrow: "② 明日を軽く",
+    ten: "③ 10分"
   };
 
   // ====== DOM ======
@@ -617,37 +688,34 @@
 
   const openListBtn = document.getElementById("openListBtn");
   const listBackBtn = document.getElementById("listBackBtn");
+  const listState = document.getElementById("listState");
 
-  const uploadMain = document.getElementById("uploadMain");
+  const uploadBtn = document.getElementById("uploadBtn");
   const downloadWakuBtn = document.getElementById("downloadWakuBtn");
   const fileInput = document.getElementById("fileInput");
 
   const backBtn = document.getElementById("backBtn");
   const resetBtn = document.getElementById("resetBtn");
   const downloadBtn = document.getElementById("downloadBtn");
-  const badge = document.getElementById("badge");
 
-  const cards = document.getElementById("cards");
+  const focusMain = document.getElementById("focusMain");
   const nextBtn = document.getElementById("nextBtn");
-  const listHint = document.getElementById("listHint");
+  const showMoreBtn = document.getElementById("showMoreBtn");
+  const resetViewBtn = document.getElementById("resetViewBtn");
 
-  const modeTriple = document.getElementById("modeTriple");
-  const modeRandom = document.getElementById("modeRandom");
-  const modeAll = document.getElementById("modeAll");
+  const modeMix = document.getElementById("modeMix");
+  const modeClose = document.getElementById("modeClose");
+  const modeTomorrow = document.getElementById("modeTomorrow");
+  const modeTen = document.getElementById("modeTen");
 
-  const catAll = document.getElementById("catAll");
-  const cat1 = document.getElementById("cat1");
-  const cat2 = document.getElementById("cat2");
-  const cat3 = document.getElementById("cat3");
-
-  // ====== Canvas / Stamp system (そのまま) ======
+  // ====== Canvas ======
   const canvas = document.getElementById("stage");
   const ctx = canvas.getContext("2d", { alpha: true });
 
   let wakuImg = null;
   let sutaImg = null;
-  let baseImg = null;      // 1600x900
-  let stamps = [];         // {x,y,size}
+  let baseImg = null;
+  let stamps = [];
 
   let holding = false;
   let holdStart = 0;
@@ -655,10 +723,9 @@
   let holdCommitted = false;
 
   // ====== List state ======
-  let listMode = "triple"; // triple | random | all
-  let listCat = "all";     // all | c1 | c2 | c3
+  let mode = "mix"; // mix | close | tomorrow | ten
+  let showCount = 3;
 
-  // ====== Utilities ======
   function showToast(msg, ms=2200){
     toast.textContent = msg;
     toast.classList.add("show");
@@ -668,8 +735,8 @@
 
   function setView(which){
     home.style.display = (which === "home") ? "block" : "none";
-    list.classList.toggle("active", which === "list");
-    editor.classList.toggle("active", which === "editor");
+    list.style.display = (which === "list") ? "block" : "none";
+    editor.style.display = (which === "editor") ? "block" : "none";
   }
 
   function loadFirstExisting(candidates){
@@ -705,20 +772,19 @@
     setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
   }
 
-  // ====== Splash effect (hover splash) ======
+  // ====== Splash ======
   function splash(el, x, y){
     const rect = el.getBoundingClientRect();
     const rx = x / rect.width;
     const ry = y / rect.height;
+    const count = 8 + Math.floor(Math.random() * 5);
 
-    const count = 10 + Math.floor(Math.random() * 5);
     for(let i=0;i<count;i++){
       const d = document.createElement("span");
       d.className = "droplet";
       const size = (6 + Math.random()*10).toFixed(1) + "px";
-
       const angle = Math.random()*Math.PI*2;
-      const dist = 16 + Math.random()*38;
+      const dist = 14 + Math.random()*34;
       const dx = Math.cos(angle) * dist;
       const dy = Math.sin(angle) * dist;
 
@@ -728,7 +794,6 @@
       d.style.setProperty("--dx", dx.toFixed(1) + "px");
       d.style.setProperty("--dy", dy.toFixed(1) + "px");
       el.appendChild(d);
-
       d.addEventListener("animationend", () => d.remove(), { once:true });
     }
   }
@@ -741,14 +806,14 @@
     });
     el.addEventListener("pointermove", (e) => {
       const now = performance.now();
-      if(now - last < 140) return;
+      if(now - last < 160) return;
       last = now;
       const r = el.getBoundingClientRect();
       splash(el, e.clientX - r.left, e.clientY - r.top);
     });
   }
 
-  // ====== Bubbles background ======
+  // ====== bubbles ======
   function initBubbles(){
     const box = document.getElementById("bubbles");
     const n = 18;
@@ -764,16 +829,16 @@
       b.style.height = size.toFixed(1) + "px";
       b.style.animationDuration = dur.toFixed(2) + "s";
       b.style.animationDelay = delay.toFixed(2) + "s";
-      b.style.opacity = (0.18 + Math.random()*0.35).toFixed(2);
+      b.style.opacity = (0.16 + Math.random()*0.34).toFixed(2);
       box.appendChild(b);
     }
   }
 
-  // ====== Draw (見えない問題を避ける順番) ======
+  // ====== draw (waku bottom, ring top) ======
   function draw(now){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // ① waku 下
+    // waku bottom
     if(wakuImg){
       ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
     }else{
@@ -781,12 +846,12 @@
       ctx.fillRect(0,0,canvas.width,canvas.height);
     }
 
-    // ② ユーザー画像
+    // user image
     if(baseImg){
       ctx.drawImage(baseImg, 0,0, canvas.width, canvas.height);
     }
 
-    // ③ スタンプ
+    // stamps
     if(sutaImg){
       for(const st of stamps){
         const sz = st.size;
@@ -794,7 +859,7 @@
       }
     }
 
-    // ④ 長押しリング 最上
+    // ring on top
     if(holding){
       const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
       const r = 54;
@@ -804,7 +869,7 @@
       ctx.lineWidth = 12;
       ctx.lineCap = "round";
 
-      ctx.strokeStyle = "rgba(240,250,255,.28)";
+      ctx.strokeStyle = "rgba(244,252,255,.28)";
       ctx.beginPath();
       ctx.arc(holdX, holdY, r, 0, Math.PI*2);
       ctx.stroke();
@@ -814,7 +879,7 @@
       ctx.arc(holdX, holdY, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2)*t);
       ctx.stroke();
 
-      ctx.fillStyle = "rgba(240,250,255,.95)";
+      ctx.fillStyle = "rgba(244,252,255,.95)";
       ctx.beginPath();
       ctx.arc(holdX, holdY, 5, 0, Math.PI*2);
       ctx.fill();
@@ -838,55 +903,119 @@
     const rect = canvas.getBoundingClientRect();
     const sx = canvas.width / rect.width;
     const sy = canvas.height / rect.height;
-    return {
-      x: (e.clientX - rect.left) * sx,
-      y: (e.clientY - rect.top) * sy
-    };
+    return { x:(e.clientX-rect.left)*sx, y:(e.clientY-rect.top)*sy };
   }
-
   function cancelHold(){
-    holding = false;
-    holdStart = 0;
-    holdCommitted = false;
+    holding=false; holdStart=0; holdCommitted=false;
   }
 
   canvas.addEventListener("pointerdown", (e) => {
-    if(!baseImg){ showToast("画像を選んで"); return; }
+    if(!baseImg){ showToast("先に画像を読み込む"); return; }
     if(!sutaImg){ showToast("suta.PNG がない"); return; }
-
     const p = getCanvasPoint(e);
     holding = true;
     holdCommitted = false;
     holdStart = performance.now();
     holdX = p.x; holdY = p.y;
-
     canvas.setPointerCapture(e.pointerId);
   });
-
   canvas.addEventListener("pointermove", (e) => {
     if(!holding) return;
     const p = getCanvasPoint(e);
     holdX = p.x; holdY = p.y;
   });
-
   const end = () => { if(holding) cancelHold(); };
   canvas.addEventListener("pointerup", end);
   canvas.addEventListener("pointercancel", end);
 
-  // ====== Home: upload + waku1 download (one group, separable) ======
-  uploadMain.addEventListener("click", () => fileInput.click());
-
-  downloadWakuBtn.addEventListener("click", async () => {
-    for(const name of WAKU_CANDIDATES){
-      try{
-        const r = await fetch(name, {cache:"no-store"});
-        if(!r.ok) continue;
-        downloadBlob(await r.blob(), "waku1.png");
-        return;
-      }catch{}
+  // ====== LIST logic (low info) ======
+  function shuffled(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i], a[j]] = [a[j], a[i]];
     }
-    showToast("waku1 がない");
-  });
+    return a;
+  }
+
+  function mixPick(n){
+    // mix: 1 from each category when possible
+    const a = shuffled(MICRO.close);
+    const b = shuffled(MICRO.tomorrow);
+    const c = shuffled(MICRO.ten);
+    const out = [];
+    // rotate categories
+    const seq = [ ["close",a], ["tomorrow",b], ["ten",c] ];
+    let idx = 0;
+    while(out.length < n){
+      const [cat, pool] = seq[idx % 3];
+      if(pool.length){
+        out.push({ cat, text: pool.shift() });
+      }else{
+        // fallback from full micro mix
+        const all = shuffled([...MICRO.close, ...MICRO.tomorrow, ...MICRO.ten]);
+        out.push({ cat:"mix", text: all[out.length % all.length] });
+      }
+      idx++;
+    }
+    return out;
+  }
+
+  function catPick(cat, n){
+    const pool = shuffled(MICRO[cat]);
+    const out = [];
+    for(let i=0;i<n;i++){
+      out.push({ cat, text: pool[i % pool.length] });
+    }
+    return out;
+  }
+
+  function catTitle(cat){
+    if(cat === "close") return "🌙 今日を閉じる";
+    if(cat === "tomorrow") return "🌙 明日を軽く";
+    if(cat === "ten") return "🌙 10分";
+    return "🌊 おすすめ";
+  }
+
+  function renderList(){
+    listState.textContent = CAT_LABEL[mode];
+
+    let items = [];
+    if(mode === "mix") items = mixPick(showCount);
+    if(mode === "close") items = catPick("close", showCount);
+    if(mode === "tomorrow") items = catPick("tomorrow", showCount);
+    if(mode === "ten") items = catPick("ten", showCount);
+
+    focusMain.innerHTML = "";
+    items.forEach((it, i) => {
+      const card = document.createElement("div");
+      card.className = "bigTask";
+      card.innerHTML = `
+        <div class="bigTaskTitle">${it.text}</div>
+        <div class="bigTaskMeta">
+          <span class="tag">${catTitle(it.cat)}</span>
+          <span style="color:rgba(244,252,255,.65); font-weight:900;">#${i+1}</span>
+        </div>
+      `;
+      focusMain.appendChild(card);
+      bindSplash(card);
+    });
+  }
+
+  function setMode(newMode){
+    mode = newMode;
+    // toggle button UI
+    [modeMix, modeClose, modeTomorrow, modeTen].forEach(b => b.classList.remove("on"));
+    if(newMode === "mix") modeMix.classList.add("on");
+    if(newMode === "close") modeClose.classList.add("on");
+    if(newMode === "tomorrow") modeTomorrow.classList.add("on");
+    if(newMode === "ten") modeTen.classList.add("on");
+    showCount = 3;
+    renderList();
+  }
+
+  // ====== HOME events ======
+  uploadBtn.addEventListener("click", () => fileInput.click());
 
   fileInput.addEventListener("change", () => {
     const file = fileInput.files?.[0];
@@ -901,7 +1030,7 @@
         stamps = [];
         cancelHold();
         setView("editor");
-        showToast("OK");
+        showToast("読み込みOK");
       }else{
         showToast("1600×900のみ");
         URL.revokeObjectURL(url);
@@ -916,7 +1045,46 @@
     img.src = url;
   });
 
-  // ====== Editor buttons ======
+  downloadWakuBtn.addEventListener("click", async () => {
+    for(const name of WAKU_CANDIDATES){
+      try{
+        const r = await fetch(name, {cache:"no-store"});
+        if(!r.ok) continue;
+        downloadBlob(await r.blob(), "waku1.png");
+        return;
+      }catch{}
+    }
+    showToast("waku1 がない");
+  });
+
+  openListBtn.addEventListener("click", () => {
+    setView("list");
+    renderList();
+  });
+
+  listBackBtn.addEventListener("click", () => setView("home"));
+
+  // ====== list events ======
+  modeMix.addEventListener("click", () => setMode("mix"));
+  modeClose.addEventListener("click", () => setMode("close"));
+  modeTomorrow.addEventListener("click", () => setMode("tomorrow"));
+  modeTen.addEventListener("click", () => setMode("ten"));
+
+  nextBtn.addEventListener("click", () => {
+    renderList();
+  });
+
+  showMoreBtn.addEventListener("click", () => {
+    showCount = Math.min(12, showCount + 3);
+    renderList();
+  });
+
+  resetViewBtn.addEventListener("click", () => {
+    showCount = 3;
+    renderList();
+  });
+
+  // ====== editor events ======
   backBtn.addEventListener("click", () => {
     baseImg = null;
     stamps = [];
@@ -928,7 +1096,7 @@
   resetBtn.addEventListener("click", () => {
     stamps = [];
     cancelHold();
-    showToast("リセット");
+    showToast("スタンプ消去");
   });
 
   downloadBtn.addEventListener("click", () => {
@@ -939,100 +1107,20 @@
     }, "image/png");
   });
 
-  // ====== List rendering ======
-  function poolByCat(cat){
-    const add = (key) => DATA[key].items.map(t => ({cat:key, text:t, title:DATA[key].title, icon:DATA[key].icon}));
-    if(cat === "c1") return add("c1");
-    if(cat === "c2") return add("c2");
-    if(cat === "c3") return add("c3");
-    return [...add("c1"), ...add("c2"), ...add("c3")];
+  // ====== init splashes ======
+  function bindBaseSplashes(){
+    [openListBtn, uploadBtn, downloadWakuBtn, nextBtn, showMoreBtn, resetViewBtn,
+     modeMix, modeClose, modeTomorrow, modeTen, listBackBtn, backBtn, resetBtn, downloadBtn
+    ].forEach(bindSplash);
   }
 
-  function pickRandom(arr, n){
-    if(n >= arr.length) return [...arr];
-    const copy = arr.slice();
-    for(let i = copy.length - 1; i > 0; i--){
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy.slice(0, n);
-  }
-
-  function renderList(){
-    const pool = poolByCat(listCat);
-
-    let show = [];
-    if(listMode === "random"){
-      show = pickRandom(pool, 1);
-      listHint.textContent = "1つ表示";
-      nextBtn.textContent = "もう1つ";
-    }else if(listMode === "all"){
-      show = pool;
-      listHint.textContent = "全部表示";
-      nextBtn.textContent = "シャッフル";
-    }else{
-      show = pickRandom(pool, 3);
-      listHint.textContent = "3つ表示";
-      nextBtn.textContent = "次";
-    }
-
-    // (all)の時はシャッフルで順番変えるだけ
-    if(listMode === "all"){
-      show = pickRandom(pool, pool.length);
-    }
-
-    cards.innerHTML = "";
-    show.forEach(item => {
-      const el = document.createElement("div");
-      el.className = "taskCard";
-      el.innerHTML = `
-        <div class="taskTitle">${item.text}</div>
-        <div class="taskMeta">${item.icon} ${item.title}</div>
-      `;
-      cards.appendChild(el);
-      // splash on hover for list cards too (subtle)
-      bindSplash(el);
-    });
-  }
-
-  function setChipOn(groupEls, onEl){
-    groupEls.forEach(el => el.classList.remove("on"));
-    onEl.classList.add("on");
-  }
-
-  modeTriple.addEventListener("click", () => { listMode="triple"; setChipOn([modeTriple,modeRandom,modeAll], modeTriple); renderList(); });
-  modeRandom.addEventListener("click", () => { listMode="random"; setChipOn([modeTriple,modeRandom,modeAll], modeRandom); renderList(); });
-  modeAll.addEventListener("click", () => { listMode="all"; setChipOn([modeTriple,modeRandom,modeAll], modeAll); renderList(); });
-
-  catAll.addEventListener("click", () => { listCat="all"; setChipOn([catAll,cat1,cat2,cat3], catAll); renderList(); });
-  cat1.addEventListener("click", () => { listCat="c1"; setChipOn([catAll,cat1,cat2,cat3], cat1); renderList(); });
-  cat2.addEventListener("click", () => { listCat="c2"; setChipOn([catAll,cat1,cat2,cat3], cat2); renderList(); });
-  cat3.addEventListener("click", () => { listCat="c3"; setChipOn([catAll,cat1,cat2,cat3], cat3); renderList(); });
-
-  nextBtn.addEventListener("click", () => renderList());
-
-  openListBtn.addEventListener("click", () => {
-    setView("list");
-    renderList();
-  });
-
-  listBackBtn.addEventListener("click", () => setView("home"));
-
-  // ====== Bind splash to key UI elements ======
-  function bindAllSplashes(){
-    // normal buttons
-    document.querySelectorAll(".btn, .chip").forEach(bindSplash);
-    // upload group parts
-    bindSplash(uploadMain);
-    bindSplash(downloadWakuBtn);
-  }
-
-  // ====== Start ======
+  // ====== start ======
   (async () => {
     initBubbles();
     await initAssets();
+    bindBaseSplashes();
+    setMode("mix");
     setView("home");
-    bindAllSplashes();
     requestAnimationFrame(loop);
   })();
 })();
