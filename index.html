@@ -326,69 +326,65 @@
   }
 
   // ===== draw =====
-  function draw(now){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+function draw(now){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // base
-    if(baseImg){
-      ctx.drawImage(baseImg, 0,0, canvas.width, canvas.height);
-    }else{
-      ctx.fillStyle = "rgba(0,0,0,.35)";
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-    }
+  // ① waku を最下層（背景）にする
+  if(wakuImg){
+    ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
+  }else{
+    ctx.fillStyle = "rgba(0,0,0,.35)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  }
 
-    // stamps
-    if(sutaImg){
-      for(const st of stamps){
-        const sz = st.size;
-        ctx.drawImage(sutaImg, st.x - sz/2, st.y - sz/2, sz, sz);
-      }
-    }
+  // ② ユーザー画像をその上に
+  if(baseImg){
+    ctx.drawImage(baseImg, 0,0, canvas.width, canvas.height);
+  }
 
-    // holding ring (押し始めた瞬間から見える)
-    if(holding){
-      const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
-      const r = 52;
-
-      ctx.save();
-      ctx.lineWidth = 12;
-      ctx.lineCap = "round";
-
-      // base ring
-      ctx.strokeStyle = "rgba(255,255,255,.22)";
-      ctx.beginPath();
-      ctx.arc(holdX, holdY, r, 0, Math.PI*2);
-      ctx.stroke();
-
-      // progress ring
-      ctx.strokeStyle = "rgba(122,167,255,.98)";
-      ctx.beginPath();
-      ctx.arc(holdX, holdY, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2)*t);
-      ctx.stroke();
-
-      // center dot
-      ctx.fillStyle = "rgba(255,255,255,.95)";
-      ctx.beginPath();
-      ctx.arc(holdX, holdY, 5, 0, Math.PI*2);
-      ctx.fill();
-
-      ctx.restore();
-
-      // commit once
-      if(t >= 1 && !holdCommitted){
-        holdCommitted = true;
-        stamps.push({x: holdX, y: holdY, size: STAMP_SIZE_PX});
-        // ここで「貼れた」可視化（リアルタイムに即表示される）
-        showToast("スタンプOK");
-      }
-    }
-
-    // waku on top
-    if(wakuImg){
-      ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
+  // ③ スタンプをその上に（リアルタイム表示）
+  if(sutaImg){
+    for(const st of stamps){
+      const sz = st.size;
+      ctx.drawImage(sutaImg, st.x - sz/2, st.y - sz/2, sz, sz);
     }
   }
 
+  // ④ 長押しリングは一番上（必ず見える）
+  if(holding){
+    const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
+    const r = 52;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.lineWidth = 12;
+    ctx.lineCap = "round";
+
+    ctx.strokeStyle = "rgba(255,255,255,.35)";
+    ctx.beginPath();
+    ctx.arc(holdX, holdY, r, 0, Math.PI*2);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(122,167,255,.98)";
+    ctx.beginPath();
+    ctx.arc(holdX, holdY, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2)*t);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(255,255,255,.95)";
+    ctx.beginPath();
+    ctx.arc(holdX, holdY, 5, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // 3秒達成で1回だけ確定
+    if(t >= 1 && !holdCommitted){
+      holdCommitted = true;
+      stamps.push({x: holdX, y: holdY, size: STAMP_SIZE_PX});
+      showToast("スタンプOK");
+    }
+  }
+}
   function loop(now){
     draw(now);
     requestAnimationFrame(loop);
