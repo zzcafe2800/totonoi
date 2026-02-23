@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>プランク集会</title>
 
-  <!-- Optional: nicer title font (works even if blocked; falls back safely) -->
+  <!-- タイトル用フォント（読めなければ自動で通常フォントにフォールバック） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
@@ -17,25 +17,15 @@
       --bgBottom:#0b2a6d;
 
       --text: rgba(245,253,255,.96);
-      --muted: rgba(245,253,255,.70);
+      --muted: rgba(245,253,255,.72);
 
-      --glass: rgba(255,255,255,.08);
-      --glass2: rgba(0,20,60,.26);
       --border: rgba(255,255,255,.16);
       --shadow: 0 24px 70px rgba(0,0,0,.32);
-      --r: 18px;
 
       --hint: rgba(170,150,255,.98);
-      --hintSoft: rgba(170,150,255,.18);
-
       --upload: rgba(120, 220, 255, .98);
-      --uploadSoft: rgba(120, 220, 255, .18);
-
       --dl: rgba(100, 240, 180, .98);
-      --dlSoft: rgba(100, 240, 180, .18);
-
       --danger: rgba(255, 130, 150, .98);
-      --dangerSoft: rgba(255, 130, 150, .16);
     }
 
     *{ box-sizing:border-box; }
@@ -51,7 +41,7 @@
         linear-gradient(180deg, var(--bgTop) 0%, var(--bgMid) 45%, var(--bgBottom) 100%);
     }
 
-    /* soft light rays */
+    /* soft rays */
     .rays{
       position: fixed;
       inset:-20%;
@@ -87,7 +77,7 @@
       to{ transform: translateY(-20vh) scale(1.12); opacity:0; }
     }
 
-    /* fish silhouettes (blurred, "approaching") */
+    /* fish silhouettes */
     .fishLane{
       position: fixed;
       inset: 0;
@@ -104,54 +94,22 @@
       animation: swim 14s linear infinite;
       will-change: transform, opacity, filter;
     }
-    .fish svg{
-      width:100%;
-      height:100%;
-      display:block;
-      fill: rgba(255,255,255,.22);
-    }
-    /* stagger */
+    .fish svg{ width:100%; height:100%; display:block; fill: rgba(255,255,255,.22); }
     .fish.f1{ top: 18%; animation-delay: -2s;  animation-duration: 16s; }
     .fish.f2{ top: 52%; animation-delay: -7s;  animation-duration: 18s; }
     .fish.f3{ top: 74%; animation-delay: -11s; animation-duration: 20s; }
-
     @keyframes swim{
-      0%{
-        opacity:0;
-        filter: blur(12px);
-        transform: translate3d(-35vw, 0, 0) scale(.55);
-      }
+      0%{ opacity:0; filter: blur(12px); transform: translate3d(-35vw, 0, 0) scale(.55); }
       10%{ opacity:.10; }
-      35%{
-        opacity:.18;
-        filter: blur(9px);
-        transform: translate3d(15vw, 0, 0) scale(.80);
-      }
-      55%{
-        opacity:.22;
-        filter: blur(7px);
-        transform: translate3d(45vw, 0, 0) scale(1.05);
-      }
-      70%{
-        opacity:.16;
-        filter: blur(10px);
-        transform: translate3d(70vw, 0, 0) scale(.92);
-      }
-      100%{
-        opacity:0;
-        filter: blur(14px);
-        transform: translate3d(120vw, 0, 0) scale(.62);
-      }
+      35%{ opacity:.18; filter: blur(9px);  transform: translate3d(15vw, 0, 0) scale(.80); }
+      55%{ opacity:.22; filter: blur(7px);  transform: translate3d(45vw, 0, 0) scale(1.05); }
+      70%{ opacity:.16; filter: blur(10px); transform: translate3d(70vw, 0, 0) scale(.92); }
+      100%{ opacity:0; filter: blur(14px); transform: translate3d(120vw, 0, 0) scale(.62); }
     }
 
-    /* layout */
-    .screen{
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
+    .screen{ position: relative; width:100%; height:100%; }
 
-    /* Title top center */
+    /* Title */
     .brand{
       position:absolute;
       top: 26px;
@@ -166,7 +124,7 @@
       white-space:nowrap;
     }
 
-    /* bottom-left vertical buttons */
+    /* Dock (bottom-left) */
     .dock{
       position:absolute;
       left: 22px;
@@ -184,10 +142,8 @@
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
       color: var(--text);
       border-radius: 22px;
-      padding: 18px 18px;
       cursor:pointer;
       font-weight: 900;
-      letter-spacing:.02em;
       box-shadow: var(--shadow);
       transition: transform .08s ease, filter .18s ease, box-shadow .18s ease, border-color .18s ease;
       position:relative;
@@ -203,16 +159,17 @@
     .btn:hover{ filter: brightness(1.04); }
 
     .btn.hint{
+      padding: 18px 18px;
       border-color: rgba(170,150,255,.55);
       background: linear-gradient(180deg, rgba(170,150,255,.22), rgba(255,255,255,.05));
     }
     .btn.upload{
       border-color: rgba(120,220,255,.55);
       background: linear-gradient(180deg, rgba(120,220,255,.22), rgba(255,255,255,.05));
-      padding: 0; /* inner split handles padding */
+      padding: 0; /* split manages padding */
     }
 
-    /* upload split: left main, right mini DL */
+    /* Upload split */
     .split{
       display:flex;
       width:100%;
@@ -228,6 +185,7 @@
       align-items:center;
       justify-content:space-between;
       gap: 12px;
+      cursor:pointer;
     }
     .splitMini{
       flex: 0 0 auto;
@@ -239,32 +197,21 @@
       background: rgba(100,240,180,.12);
       color: rgba(240,255,250,.95);
       font-weight: 950;
-      letter-spacing:.02em;
       cursor:pointer;
       padding: 18px 14px;
+      user-select:none;
     }
-    .splitMini:hover{
-      background: rgba(100,240,180,.18);
-    }
+    .splitMini:hover{ background: rgba(100,240,180,.18); }
 
-    .icon{
-      opacity:.95;
-      font-size: 20px;
-      flex: 0 0 auto;
-    }
-    .label{
-      display:flex;
-      align-items:center;
-      gap: 10px;
-      min-width: 0;
-    }
+    .icon{ opacity:.95; font-size: 20px; }
+    .label{ display:flex; align-items:center; gap:10px; min-width:0; }
     .labelText{
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
 
-    /* splash droplets */
+    /* Splash */
     .droplet{
       position:absolute;
       left: var(--x);
@@ -289,7 +236,7 @@
       }
     }
 
-    /* LIST screen */
+    /* LIST */
     .topRight{
       position:absolute;
       top: 18px;
@@ -297,6 +244,10 @@
       display:flex;
       gap: 10px;
       align-items:center;
+
+      z-index: 60;          /* ← FIX: buttons on top */
+      pointer-events: auto; /* ← FIX */
+      touch-action: manipulation;
     }
     .smallBtn{
       appearance:none;
@@ -307,7 +258,6 @@
       padding: 12px 14px;
       cursor:pointer;
       font-weight: 950;
-      letter-spacing:.02em;
       box-shadow: 0 18px 45px rgba(0,0,0,.22);
       transition: transform .08s ease, filter .18s ease, background .18s ease;
       position:relative;
@@ -318,13 +268,11 @@
     }
     .smallBtn:active{ transform: translateY(1px); }
     .smallBtn:hover{ filter: brightness(1.04); }
-    .smallBtn.back{ background: rgba(255,255,255,.08); }
     .smallBtn.shuffle{
       border-color: rgba(120,220,255,.45);
       background: rgba(120,220,255,.14);
     }
 
-    /* center hint */
     .center{
       position:absolute;
       inset: 0;
@@ -332,6 +280,8 @@
       align-items:center;
       justify-content:center;
       padding: 24px;
+
+      pointer-events: none; /* ← FIX: center doesn't block topRight */
     }
     .hintBox{
       width: min(980px, 100%);
@@ -343,6 +293,8 @@
       -webkit-backdrop-filter: blur(12px);
       padding: 28px 24px;
       text-align:center;
+
+      pointer-events: auto; /* ← FIX: box itself can be interacted with */
     }
     .hintCat{
       font-weight: 900;
@@ -361,7 +313,7 @@
       word-break: keep-all;
     }
 
-    /* EDITOR screen minimal */
+    /* EDITOR minimal */
     .editorTop{
       position:absolute;
       top: 18px;
@@ -372,13 +324,11 @@
       gap: 10px;
       flex-wrap:wrap;
       align-items:center;
+      z-index: 30;
+      pointer-events:auto;
     }
-    .editorBtns{
-      display:flex;
-      gap: 10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
+    .editorBtns{ display:flex; gap: 10px; flex-wrap:wrap; align-items:center; }
+
     .actBtn{
       appearance:none;
       border: 1px solid rgba(255,255,255,.16);
@@ -395,17 +345,12 @@
       font-size: 16px;
       white-space:nowrap;
       transition: filter .18s ease, transform .08s ease, background .18s ease, border-color .18s ease;
+      touch-action: manipulation;
     }
     .actBtn:active{ transform: translateY(1px); }
     .actBtn:hover{ filter: brightness(1.04); }
-    .actBtn.save{
-      border-color: rgba(100,240,180,.50);
-      background: rgba(100,240,180,.14);
-    }
-    .actBtn.reset{
-      border-color: rgba(255,130,150,.50);
-      background: rgba(255,130,150,.14);
-    }
+    .actBtn.save{ border-color: rgba(100,240,180,.50); background: rgba(100,240,180,.14); }
+    .actBtn.reset{ border-color: rgba(255,130,150,.50); background: rgba(255,130,150,.14); }
 
     .canvasWrap{
       position:absolute;
@@ -420,11 +365,20 @@
       box-shadow: 0 28px 80px rgba(0,0,0,.30);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+
+      /* ← FIX: canvas centered and scaled to fit without clipping */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 0;
     }
     canvas{
-      width:100%;
-      height:auto;
       display:block;
+      /* fit inside canvasWrap */
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       touch-action:none;
     }
 
@@ -548,14 +502,12 @@
 
 <script>
 (() => {
-  // ====== Settings ======
-  const STAMP_SIZE_PX = 180;   // スタンプサイズ
+  const STAMP_SIZE_PX = 180;
   const HOLD_MS = 3000;
 
   const WAKU_CANDIDATES = ["waku1.PNG","waku1.png","WAKU1.PNG","WAKU1.png"];
   const SUTA_CANDIDATES = ["suta.PNG","suta.png","SUTA.PNG","SUTA.png"];
 
-  // ====== Micro hints (short) ======
   const HINTS = [
     { cat:"🌙 今日", text:"ゴミ1つ捨てる" },
     { cat:"🌙 今日", text:"靴をそろえる" },
@@ -571,7 +523,6 @@
     { cat:"⏱ 10分", text:"不要3つ捨て" },
   ];
 
-  // ====== DOM ======
   const toast = document.getElementById("toast");
 
   const home = document.getElementById("home");
@@ -592,7 +543,6 @@
   const resetBtn = document.getElementById("resetBtn");
   const downloadBtn = document.getElementById("downloadBtn");
 
-  // ====== Canvas ======
   const canvas = document.getElementById("stage");
   const ctx = canvas.getContext("2d", { alpha: true });
 
@@ -606,7 +556,6 @@
   let holdX = 0, holdY = 0;
   let holdCommitted = false;
 
-  // ====== UI helpers ======
   function showToast(msg, ms=1400){
     toast.textContent = msg;
     toast.classList.add("show");
@@ -620,7 +569,6 @@
     editor.style.display = (which === "editor") ? "block" : "none";
   }
 
-  // ====== Load assets ======
   function loadFirstExisting(candidates){
     return new Promise((resolve, reject) => {
       let i = 0;
@@ -643,7 +591,6 @@
     catch{ showToast("sutaなし"); }
   }
 
-  // ====== Download helpers ======
   function downloadBlob(blob, filename){
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -654,7 +601,6 @@
     setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
   }
 
-  // ====== Splash effect ======
   function splash(el, clientX, clientY){
     const rect = el.getBoundingClientRect();
     const x = (clientX - rect.left) / rect.width;
@@ -690,7 +636,6 @@
     });
   }
 
-  // ====== Background bubbles ======
   function initBubbles(){
     const box = document.getElementById("bubbles");
     const n = 16;
@@ -701,7 +646,6 @@
       const size = 6 + Math.random()*16;
       const dur = 11 + Math.random()*14;
       const delay = -Math.random()*dur;
-
       b.style.left = left.toFixed(2) + "vw";
       b.style.width = size.toFixed(1) + "px";
       b.style.height = size.toFixed(1) + "px";
@@ -712,11 +656,10 @@
     }
   }
 
-  // ====== Canvas draw (waku bottom, ring top) ======
   function draw(now){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // 1) waku bottom
+    // 1) waku
     if(wakuImg){
       ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
     }else{
@@ -737,7 +680,7 @@
       }
     }
 
-    // 4) ring top
+    // 4) ring
     if(holding){
       const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
       const r = 54;
@@ -808,7 +751,6 @@
   canvas.addEventListener("pointerup", end);
   canvas.addEventListener("pointercancel", end);
 
-  // ====== Hint logic ======
   function pickHint(){
     const i = Math.floor(Math.random() * HINTS.length);
     const h = HINTS[i];
@@ -816,7 +758,7 @@
     hintText.textContent = h.text;
   }
 
-  // ====== Home events ======
+  // HOME
   openListBtn.addEventListener("click", () => {
     pickHint();
     setScreen("list");
@@ -825,7 +767,6 @@
   uploadBtn.addEventListener("click", () => fileInput.click());
 
   downloadWakuBtn.addEventListener("click", async (e) => {
-    // prevent triggering upload if user clicks DL area
     e.stopPropagation();
     for(const name of WAKU_CANDIDATES){
       try{
@@ -866,11 +807,11 @@
     img.src = url;
   });
 
-  // ====== List events ======
+  // LIST
   listBackBtn.addEventListener("click", () => setScreen("home"));
   shuffleBtn.addEventListener("click", () => pickHint());
 
-  // ====== Editor events ======
+  // EDITOR
   backBtn.addEventListener("click", () => {
     baseImg = null;
     stamps = [];
@@ -893,12 +834,11 @@
     }, "image/png");
   });
 
-  // ====== init ======
   (async () => {
     initBubbles();
     await initAssets();
 
-    // splashes (only on clickable UI)
+    // splashes
     [openListBtn, uploadBtn, downloadWakuBtn, listBackBtn, shuffleBtn, backBtn, resetBtn, downloadBtn]
       .forEach(bindSplash);
 
