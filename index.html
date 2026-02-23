@@ -4,22 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>プランク集会</title>
+
+  <!-- Optional: nicer title font (works even if blocked; falls back safely) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg1:#061a2a;
-      --bg2:#020a14;
-      --text: rgba(244,252,255,.95);
-      --muted: rgba(244,252,255,.62);
-      --glass: rgba(10, 26, 45, .48);
-      --glass2: rgba(10, 26, 45, .30);
-      --border: rgba(190, 245, 255, .18);
-      --shadow: 0 18px 45px rgba(0,0,0,.35);
-      --r: 20px;
+      --bgTop:#0b5aa8;
+      --bgMid:#0a88c9;
+      --bgBottom:#0b2a6d;
 
-      --primary: rgba(130, 220, 255, .98);
-      --list: rgba(170, 150, 255, .95);
-      --frame: rgba(100, 240, 180, .95);
-      --danger: rgba(255, 130, 150, .95);
+      --text: rgba(245,253,255,.96);
+      --muted: rgba(245,253,255,.70);
+
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(0,20,60,.26);
+      --border: rgba(255,255,255,.16);
+      --shadow: 0 24px 70px rgba(0,0,0,.32);
+      --r: 18px;
+
+      --hint: rgba(170,150,255,.98);
+      --hintSoft: rgba(170,150,255,.18);
+
+      --upload: rgba(120, 220, 255, .98);
+      --uploadSoft: rgba(120, 220, 255, .18);
+
+      --dl: rgba(100, 240, 180, .98);
+      --dlSoft: rgba(100, 240, 180, .18);
+
+      --danger: rgba(255, 130, 150, .98);
+      --dangerSoft: rgba(255, 130, 150, .16);
     }
 
     *{ box-sizing:border-box; }
@@ -28,139 +44,225 @@
       margin:0;
       color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", Arial;
-      overflow-x:hidden;
+      overflow:hidden;
       background:
-        radial-gradient(1100px 700px at 10% 10%, rgba(130,220,255,.22), transparent 60%),
-        radial-gradient(900px 600px at 90% 20%, rgba(170,150,255,.12), transparent 62%),
-        radial-gradient(900px 600px at 70% 95%, rgba(100,240,180,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg1) 0%, #03121f 55%, var(--bg2) 100%);
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 85% 15%, rgba(255,255,255,.12), transparent 60%),
+        linear-gradient(180deg, var(--bgTop) 0%, var(--bgMid) 45%, var(--bgBottom) 100%);
     }
 
-    /* caustics */
-    .caustics{
+    /* soft light rays */
+    .rays{
       position: fixed;
-      inset: -30%;
+      inset:-20%;
       pointer-events:none;
-      opacity:.12;
+      opacity:.22;
       background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 30% 40%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 55% 30%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 75% 60%, rgba(255,255,255,.85) 0 2px, transparent 3px),
-        radial-gradient(circle at 90% 35%, rgba(255,255,255,.85) 0 2px, transparent 3px);
-      filter: blur(1px);
-      animation: drift 14s ease-in-out infinite;
-      transform: rotate(-7deg);
+        linear-gradient(105deg, transparent 0 20%, rgba(255,255,255,.25) 28%, transparent 36%),
+        linear-gradient(78deg, transparent 0 30%, rgba(255,255,255,.18) 40%, transparent 50%),
+        linear-gradient(120deg, transparent 0 35%, rgba(255,255,255,.12) 46%, transparent 57%);
+      filter: blur(2px);
+      transform: rotate(-6deg);
+      animation: rayMove 12s ease-in-out infinite;
     }
-    @keyframes drift{
+    @keyframes rayMove{
       0%{ transform: translate3d(-1%, -1%, 0) rotate(-6deg) scale(1.02); }
-      50%{ transform: translate3d(1.2%, 1%, 0) rotate(-8deg) scale(1.04); }
+      50%{ transform: translate3d(1.2%, 1%, 0) rotate(-8deg) scale(1.03); }
       100%{ transform: translate3d(-1%, -1%, 0) rotate(-6deg) scale(1.02); }
     }
 
     /* bubbles */
-    .bubbles{ position:fixed; inset:0; pointer-events:none; opacity:.32; }
+    .bubbles{ position:fixed; inset:0; pointer-events:none; opacity:.25; }
     .bubble{
       position:absolute;
       border-radius: 999px;
-      border: 1px solid rgba(200,250,255,.35);
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%);
-      filter: blur(.2px);
+      border: 1px solid rgba(255,255,255,.28);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.30), transparent 60%);
+      filter: blur(.25px);
       animation: rise linear infinite;
     }
     @keyframes rise{
-      from{ transform: translateY(105vh) scale(.7); opacity:0; }
-      10%{ opacity:.7; }
-      to{ transform: translateY(-20vh) scale(1.05); opacity:0; }
+      from{ transform: translateY(110vh) scale(.7); opacity:0; }
+      12%{ opacity:.75; }
+      to{ transform: translateY(-20vh) scale(1.12); opacity:0; }
     }
 
-    .wrap{
-      min-height:100%;
+    /* fish silhouettes (blurred, "approaching") */
+    .fishLane{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .fish{
+      position:absolute;
+      width: 220px;
+      height: 90px;
+      opacity: .0;
+      filter: blur(10px);
+      transform: translate3d(-30vw, 0, 0) scale(.55);
+      animation: swim 14s linear infinite;
+      will-change: transform, opacity, filter;
+    }
+    .fish svg{
+      width:100%;
+      height:100%;
+      display:block;
+      fill: rgba(255,255,255,.22);
+    }
+    /* stagger */
+    .fish.f1{ top: 18%; animation-delay: -2s;  animation-duration: 16s; }
+    .fish.f2{ top: 52%; animation-delay: -7s;  animation-duration: 18s; }
+    .fish.f3{ top: 74%; animation-delay: -11s; animation-duration: 20s; }
+
+    @keyframes swim{
+      0%{
+        opacity:0;
+        filter: blur(12px);
+        transform: translate3d(-35vw, 0, 0) scale(.55);
+      }
+      10%{ opacity:.10; }
+      35%{
+        opacity:.18;
+        filter: blur(9px);
+        transform: translate3d(15vw, 0, 0) scale(.80);
+      }
+      55%{
+        opacity:.22;
+        filter: blur(7px);
+        transform: translate3d(45vw, 0, 0) scale(1.05);
+      }
+      70%{
+        opacity:.16;
+        filter: blur(10px);
+        transform: translate3d(70vw, 0, 0) scale(.92);
+      }
+      100%{
+        opacity:0;
+        filter: blur(14px);
+        transform: translate3d(120vw, 0, 0) scale(.62);
+      }
+    }
+
+    /* layout */
+    .screen{
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Title top center */
+    .brand{
+      position:absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Kaisei Decol", "Noto Sans JP", ui-sans-serif, system-ui;
+      font-weight: 700;
+      font-size: clamp(26px, 3.4vw, 40px);
+      letter-spacing: .06em;
+      text-shadow: 0 18px 50px rgba(0,0,0,.35);
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    /* bottom-left vertical buttons */
+    .dock{
+      position:absolute;
+      left: 22px;
+      bottom: 22px;
       display:flex;
       flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      padding: 24px 18px 30px;
-      gap: 14px;
+      gap: 12px;
+      align-items:stretch;
+      width: min(360px, calc(100vw - 44px));
     }
 
-    /* top */
-    .top{
-      width:min(1100px, 100%);
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:12px;
-      padding: 6px 2px 2px;
-    }
-    .title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight: 950;
-      letter-spacing:.2px;
-      font-size: 22px;
-      text-shadow: 0 10px 28px rgba(0,0,0,.35);
-    }
-    .dot{
-      width:10px; height:10px;
-      border-radius:999px;
-      background: var(--primary);
-      box-shadow: 0 0 0 9px rgba(130,220,255,.12);
-    }
-    .miniRow{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
-    .mini{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 9px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
-      white-space:nowrap;
-    }
-
-    /* panels */
-    .panel{
-      width:min(1100px, 100%);
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--glass), var(--glass2));
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    /* buttons */
     .btn{
-      position:relative;
       appearance:none;
-      border: 1px solid rgba(190,245,255,.18);
-      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
       color: var(--text);
-      padding: 12px 14px;
-      border-radius: 18px;
+      border-radius: 22px;
+      padding: 18px 18px;
       cursor:pointer;
-      font-weight: 950;
-      letter-spacing:.2px;
-      user-select:none;
-      transition: transform .08s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, filter .18s ease;
+      font-weight: 900;
+      letter-spacing:.02em;
+      box-shadow: var(--shadow);
+      transition: transform .08s ease, filter .18s ease, box-shadow .18s ease, border-color .18s ease;
+      position:relative;
       overflow:hidden;
-      white-space:nowrap;
-    }
-    .btn:hover{
-      box-shadow: 0 0 0 4px rgba(130,220,255,.10), 0 18px 40px rgba(0,0,0,.25);
-      filter: brightness(1.03);
+      user-select:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      font-size: 18px;
     }
     .btn:active{ transform: translateY(1px) scale(.99); }
+    .btn:hover{ filter: brightness(1.04); }
 
-    .btn.primary{ border-color: rgba(130,220,255,.55); background: rgba(130,220,255,.14); }
-    .btn.list{ border-color: rgba(170,150,255,.55); background: rgba(170,150,255,.14); }
-    .btn.frame{ border-color: rgba(100,240,180,.55); background: rgba(100,240,180,.12); }
-    .btn.danger{ border-color: rgba(255,130,150,.55); background: rgba(255,130,150,.12); }
+    .btn.hint{
+      border-color: rgba(170,150,255,.55);
+      background: linear-gradient(180deg, rgba(170,150,255,.22), rgba(255,255,255,.05));
+    }
+    .btn.upload{
+      border-color: rgba(120,220,255,.55);
+      background: linear-gradient(180deg, rgba(120,220,255,.22), rgba(255,255,255,.05));
+      padding: 0; /* inner split handles padding */
+    }
+
+    /* upload split: left main, right mini DL */
+    .split{
+      display:flex;
+      width:100%;
+      align-items:stretch;
+      justify-content:space-between;
+      overflow:hidden;
+      border-radius: 22px;
+    }
+    .splitMain{
+      flex: 1 1 auto;
+      padding: 18px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .splitMini{
+      flex: 0 0 auto;
+      min-width: 72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-left: 1px solid rgba(255,255,255,.14);
+      background: rgba(100,240,180,.12);
+      color: rgba(240,255,250,.95);
+      font-weight: 950;
+      letter-spacing:.02em;
+      cursor:pointer;
+      padding: 18px 14px;
+    }
+    .splitMini:hover{
+      background: rgba(100,240,180,.18);
+    }
+
+    .icon{
+      opacity:.95;
+      font-size: 20px;
+      flex: 0 0 auto;
+    }
+    .label{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .labelText{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
 
     /* splash droplets */
     .droplet{
@@ -172,7 +274,7 @@
       border-radius: 999px;
       pointer-events:none;
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.90), rgba(255,255,255,.25) 35%, transparent 70%);
-      border: 1px solid rgba(200,250,255,.26);
+      border: 1px solid rgba(255,255,255,.22);
       transform: translate(-50%,-50%) scale(.5);
       opacity: .0;
       animation: splash 650ms ease-out forwards;
@@ -187,160 +289,141 @@
       }
     }
 
-    /* HOME */
-    #home{ padding: 14px; }
-    .homeRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      align-items:stretch;
-    }
-    @media (max-width: 860px){
-      .homeRow{ grid-template-columns:1fr; }
-    }
-    .iconCard{
-      border-radius: 20px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.03);
-      padding: 14px;
+    /* LIST screen */
+    .topRight{
+      position:absolute;
+      top: 18px;
+      right: 18px;
       display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .iconLine{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      font-size: 22px;
-      opacity: .95;
-      user-select:none;
-    }
-    .homeBtns{
-      display:flex;
-      flex-direction:column;
       gap: 10px;
-      justify-content:center;
-    }
-
-    /* LIST */
-    #list{ display:none; }
-    #list.active{ display:block; }
-    #list .head{
-      padding: 14px;
-      display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      flex-wrap:wrap;
     }
-    .modes{ display:flex; gap: 10px; flex-wrap:wrap; align-items:center; }
-
-    .chip{
-      position:relative;
+    .smallBtn{
       appearance:none;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
       color: var(--text);
-      padding: 10px 12px;
-      border-radius: 999px;
+      border-radius: 16px;
+      padding: 12px 14px;
       cursor:pointer;
       font-weight: 950;
-      user-select:none;
-      transition: filter .18s ease, box-shadow .18s ease, border-color .18s ease, transform .08s ease, background .18s ease;
+      letter-spacing:.02em;
+      box-shadow: 0 18px 45px rgba(0,0,0,.22);
+      transition: transform .08s ease, filter .18s ease, background .18s ease;
+      position:relative;
       overflow:hidden;
+      user-select:none;
+      font-size: 16px;
       white-space:nowrap;
     }
-    .chip:hover{
-      border-color: rgba(130,220,255,.45);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.08);
-      filter: brightness(1.03);
-    }
-    .chip:active{ transform: translateY(1px); }
-    .chip.on{
-      border-color: rgba(130,220,255,.62);
-      background: rgba(130,220,255,.12);
-      box-shadow: 0 0 0 4px rgba(130,220,255,.10);
+    .smallBtn:active{ transform: translateY(1px); }
+    .smallBtn:hover{ filter: brightness(1.04); }
+    .smallBtn.back{ background: rgba(255,255,255,.08); }
+    .smallBtn.shuffle{
+      border-color: rgba(120,220,255,.45);
+      background: rgba(120,220,255,.14);
     }
 
-    .focus{
-      padding: 14px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .task{
-      border-radius: 22px;
-      border: 1px solid rgba(190,245,255,.14);
-      background: rgba(255,255,255,.04);
-      padding: 18px 18px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.18);
-      position:relative;
-      overflow:hidden;
-    }
-    .task::before{
-      content:"";
+    /* center hint */
+    .center{
       position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(130,220,255,.10), transparent 60%);
-      transform: rotate(-8deg);
-      pointer-events:none;
-    }
-    .taskLine{
-      position:relative;
+      inset: 0;
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-    }
-    .taskText{
-      font-weight: 980;
-      font-size: 26px;
-      letter-spacing:.2px;
-      line-height: 1.15;
-    }
-    .taskTag{
-      display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width: 52px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(190,245,255,.12);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size: 12px;
+      padding: 24px;
+    }
+    .hintBox{
+      width: min(980px, 100%);
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,20,60,.20));
+      box-shadow: 0 28px 80px rgba(0,0,0,.30);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 28px 24px;
+      text-align:center;
+    }
+    .hintCat{
+      font-weight: 900;
+      color: rgba(245,253,255,.75);
+      font-size: 16px;
+      letter-spacing:.06em;
+      margin-bottom: 12px;
       user-select:none;
-      white-space:nowrap;
+    }
+    .hintText{
+      font-weight: 980;
+      font-size: clamp(34px, 4.2vw, 62px);
+      letter-spacing:.02em;
+      line-height: 1.12;
+      user-select:none;
+      word-break: keep-all;
     }
 
-    /* EDITOR */
-    #editor{ display:none; width:min(1100px,100%); }
-    #editor.active{ display:block; }
-    .toolbar{
-      padding: 14px;
+    /* EDITOR screen minimal */
+    .editorTop{
+      position:absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
       display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap:10px;
+      gap: 10px;
       flex-wrap:wrap;
+      align-items:center;
     }
-    .stageShell{
-      width: min(1100px, 100%);
-      border: 1px solid rgba(190,245,255,.14);
+    .editorBtns{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .actBtn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 12px 14px;
+      cursor:pointer;
+      font-weight: 950;
+      box-shadow: 0 18px 45px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+      font-size: 16px;
+      white-space:nowrap;
+      transition: filter .18s ease, transform .08s ease, background .18s ease, border-color .18s ease;
+    }
+    .actBtn:active{ transform: translateY(1px); }
+    .actBtn:hover{ filter: brightness(1.04); }
+    .actBtn.save{
+      border-color: rgba(100,240,180,.50);
+      background: rgba(100,240,180,.14);
+    }
+    .actBtn.reset{
+      border-color: rgba(255,130,150,.50);
+      background: rgba(255,130,150,.14);
+    }
+
+    .canvasWrap{
+      position:absolute;
+      left: 18px;
+      right: 18px;
+      top: 76px;
+      bottom: 18px;
       border-radius: 22px;
       overflow:hidden;
-      background: rgba(0,0,0,.28);
-      box-shadow: 0 22px 60px rgba(0,0,0,.35);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      box-shadow: 0 28px 80px rgba(0,0,0,.30);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
     canvas{
-      width: 100%;
-      height: auto;
+      width:100%;
+      height:auto;
       display:block;
       touch-action:none;
     }
@@ -351,159 +434,163 @@
       left: 50%;
       top: 16px;
       transform: translateX(-50%);
-      background: rgba(10, 26, 45, .78);
-      border: 1px solid rgba(190,245,255,.18);
+      background: rgba(0,20,60,.60);
+      border: 1px solid rgba(255,255,255,.14);
       color: var(--text);
       padding: 10px 12px;
       border-radius: 999px;
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      box-shadow: 0 18px 45px rgba(0,0,0,.30);
       font-size: 13px;
       display:none;
-      max-width: min(92vw, 900px);
       z-index: 9999;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select:none;
+      max-width: min(92vw, 900px);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     .toast.show{ display:block; }
 
-    /* hidden input */
     #fileInput{ display:none; }
   </style>
 </head>
 
 <body>
-  <div class="caustics"></div>
+  <div class="rays"></div>
   <div class="bubbles" id="bubbles"></div>
 
-  <div class="wrap">
-    <div class="top">
-      <div class="title"><span class="dot"></span>プランク集会</div>
-      <div class="miniRow">
-        <span class="mini">🖼1600×900</span>
-        <span class="mini">🫧長押し</span>
+  <div class="fishLane" aria-hidden="true">
+    <div class="fish f1">
+      <svg viewBox="0 0 240 100">
+        <path d="M10,50 C35,20 75,15 110,30 C130,10 160,10 175,28 C205,40 220,55 230,50 C220,65 205,78 175,72 C160,90 130,90 110,70 C75,85 35,80 10,50 Z"/>
+        <path d="M210,50 L238,30 L232,50 L238,70 Z"/>
+      </svg>
+    </div>
+    <div class="fish f2">
+      <svg viewBox="0 0 240 100">
+        <path d="M14,50 C40,22 82,18 116,33 C138,12 164,12 180,30 C210,42 225,58 234,50 C225,66 210,80 180,74 C164,92 138,92 116,70 C82,86 40,82 14,50 Z"/>
+        <path d="M214,50 L238,28 L232,50 L238,72 Z"/>
+      </svg>
+    </div>
+    <div class="fish f3">
+      <svg viewBox="0 0 240 100">
+        <path d="M12,50 C38,24 80,18 114,34 C136,14 162,14 178,32 C208,44 223,58 232,50 C223,66 208,78 178,74 C162,90 136,90 114,68 C80,84 38,78 12,50 Z"/>
+        <path d="M212,50 L238,30 L232,50 L238,70 Z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="home" class="screen">
+    <div class="brand">プランク集会</div>
+
+    <div class="dock">
+      <button id="openListBtn" class="btn hint">
+        <span class="label">
+          <span class="icon">📌</span>
+          <span class="labelText">整いヒント</span>
+        </span>
+        <span class="icon">→</span>
+      </button>
+
+      <button id="uploadGroupBtn" class="btn upload" aria-label="読み込み / waku1 DL">
+        <div class="split">
+          <div class="splitMain" id="uploadBtn" role="button" aria-label="読み込み">
+            <span class="label">
+              <span class="icon">🖼</span>
+              <span class="labelText">読み込み</span>
+            </span>
+            <span class="icon">＋</span>
+          </div>
+          <div class="splitMini" id="downloadWakuBtn" role="button" aria-label="waku1 DL">DL</div>
+        </div>
+      </button>
+
+      <input id="fileInput" type="file" accept="image/*" />
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div id="list" class="screen" style="display:none;">
+    <div class="topRight">
+      <button id="listBackBtn" class="smallBtn back">戻る</button>
+      <button id="shuffleBtn" class="smallBtn shuffle">シャッフル</button>
+    </div>
+
+    <div class="center">
+      <div class="hintBox">
+        <div class="hintCat" id="hintCat">—</div>
+        <div class="hintText" id="hintText">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor" class="screen" style="display:none;">
+    <div class="editorTop">
+      <div class="editorBtns">
+        <button id="backBtn" class="actBtn">戻る</button>
+        <button id="resetBtn" class="actBtn reset">リセット</button>
+      </div>
+      <div class="editorBtns">
+        <button id="downloadBtn" class="actBtn save">保存</button>
       </div>
     </div>
 
-    <!-- HOME -->
-    <section id="home" class="panel">
-      <div class="homeRow">
-        <!-- illustration only -->
-        <div class="iconCard">
-          <div class="iconLine" aria-label="操作イラスト">
-            <span title="一覧">📋</span>
-            <span title="画像">🖼</span>
-            <span title="長押し">🫧</span>
-            <span title="保存">⬇️</span>
-          </div>
-        </div>
-
-        <div class="homeBtns">
-          <button id="openListBtn" class="btn list">📋 整い一覧</button>
-          <button id="uploadBtn" class="btn primary">🖼 読み込み</button>
-          <button id="downloadWakuBtn" class="btn frame">▢ waku1保存</button>
-          <input id="fileInput" type="file" accept="image/*" />
-        </div>
-      </div>
-    </section>
-
-    <!-- LIST -->
-    <section id="list" class="panel">
-      <div class="head">
-        <button id="listBackBtn" class="btn">← 戻る</button>
-        <div class="modes">
-          <button id="modeMix" class="chip on">🌊 ミックス</button>
-          <button id="modeClose" class="chip">🌙 今日</button>
-          <button id="modeTomorrow" class="chip">🌤 明日</button>
-          <button id="modeTen" class="chip">⏱ 10分</button>
-          <button id="nextBtn" class="btn primary">🔄 次</button>
-        </div>
-      </div>
-
-      <div class="focus" id="focusMain"></div>
-    </section>
-
-    <!-- EDITOR -->
-    <section id="editor">
-      <div class="panel toolbar">
-        <div class="left" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <button id="backBtn" class="btn">← 戻る</button>
-          <button id="resetBtn" class="btn danger">🧹 リセット</button>
-          <span class="mini">🫧 長押し</span>
-        </div>
-        <div class="right" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-          <button id="downloadBtn" class="btn frame">⬇️ 保存</button>
-        </div>
-      </div>
-
-      <div class="stageShell">
-        <canvas id="stage" width="1600" height="900"></canvas>
-      </div>
-    </section>
+    <div class="canvasWrap">
+      <canvas id="stage" width="1600" height="900"></canvas>
+    </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
 <script>
 (() => {
-  // ====== stamp system ======
-  const STAMP_SIZE_PX = 180;
+  // ====== Settings ======
+  const STAMP_SIZE_PX = 180;   // スタンプサイズ
   const HOLD_MS = 3000;
 
   const WAKU_CANDIDATES = ["waku1.PNG","waku1.png","WAKU1.PNG","WAKU1.png"];
   const SUTA_CANDIDATES = ["suta.PNG","suta.png","SUTA.PNG","SUTA.png"];
 
-  // ====== micro tasks (ALL <= 20 chars) ======
-  const MICRO = {
-    close: [
-      "ゴミ1つ捨てる",
-      "机を1つ戻す",
-      "靴をそろえる",
-      "鍵を戻す",
-      "通知オフ",
-      "充電さす"
-    ],
-    tomorrow: [
-      "服を出す",
-      "予定を見る",
-      "アラーム設定",
-      "天気を見る",
-      "IC入れる",
-      "水筒準備"
-    ],
-    ten: [
-      "床コロコロ",
-      "洗面台ふく",
-      "洗い物終える",
-      "ベッド整える",
-      "不要3つ捨て",
-      "本5冊戻す"
-    ]
-  };
+  // ====== Micro hints (short) ======
+  const HINTS = [
+    { cat:"🌙 今日", text:"ゴミ1つ捨てる" },
+    { cat:"🌙 今日", text:"靴をそろえる" },
+    { cat:"🌙 今日", text:"鍵を戻す" },
+    { cat:"🌙 今日", text:"通知オフ" },
+    { cat:"🌤 明日", text:"服を出す" },
+    { cat:"🌤 明日", text:"予定を見る" },
+    { cat:"🌤 明日", text:"アラーム設定" },
+    { cat:"🌤 明日", text:"天気を見る" },
+    { cat:"⏱ 10分", text:"床コロコロ" },
+    { cat:"⏱ 10分", text:"洗面台ふく" },
+    { cat:"⏱ 10分", text:"洗い物終える" },
+    { cat:"⏱ 10分", text:"不要3つ捨て" },
+  ];
 
   // ====== DOM ======
   const toast = document.getElementById("toast");
+
   const home = document.getElementById("home");
   const list = document.getElementById("list");
   const editor = document.getElementById("editor");
 
   const openListBtn = document.getElementById("openListBtn");
-  const listBackBtn = document.getElementById("listBackBtn");
-
   const uploadBtn = document.getElementById("uploadBtn");
   const downloadWakuBtn = document.getElementById("downloadWakuBtn");
   const fileInput = document.getElementById("fileInput");
 
+  const listBackBtn = document.getElementById("listBackBtn");
+  const shuffleBtn = document.getElementById("shuffleBtn");
+  const hintCat = document.getElementById("hintCat");
+  const hintText = document.getElementById("hintText");
+
   const backBtn = document.getElementById("backBtn");
   const resetBtn = document.getElementById("resetBtn");
   const downloadBtn = document.getElementById("downloadBtn");
-
-  const focusMain = document.getElementById("focusMain");
-  const nextBtn = document.getElementById("nextBtn");
-
-  const modeMix = document.getElementById("modeMix");
-  const modeClose = document.getElementById("modeClose");
-  const modeTomorrow = document.getElementById("modeTomorrow");
-  const modeTen = document.getElementById("modeTen");
 
   // ====== Canvas ======
   const canvas = document.getElementById("stage");
@@ -519,23 +606,21 @@
   let holdX = 0, holdY = 0;
   let holdCommitted = false;
 
-  // ====== list state ======
-  let mode = "mix"; // mix | close | tomorrow | ten
-
-  function showToast(msg, ms=1500){
-    // msg also kept short
-    toast.textContent = msg.slice(0, 20);
+  // ====== UI helpers ======
+  function showToast(msg, ms=1400){
+    toast.textContent = msg;
     toast.classList.add("show");
     clearTimeout(showToast._t);
     showToast._t = setTimeout(()=>toast.classList.remove("show"), ms);
   }
 
-  function setView(which){
+  function setScreen(which){
     home.style.display = (which === "home") ? "block" : "none";
-    list.classList.toggle("active", which === "list");
-    editor.classList.toggle("active", which === "editor");
+    list.style.display = (which === "list") ? "block" : "none";
+    editor.style.display = (which === "editor") ? "block" : "none";
   }
 
+  // ====== Load assets ======
   function loadFirstExisting(candidates){
     return new Promise((resolve, reject) => {
       let i = 0;
@@ -554,11 +639,11 @@
   async function initAssets(){
     try{ wakuImg = (await loadFirstExisting(WAKU_CANDIDATES)).img; }
     catch{ showToast("waku1なし"); }
-
     try{ sutaImg = (await loadFirstExisting(SUTA_CANDIDATES)).img; }
     catch{ showToast("sutaなし"); }
   }
 
+  // ====== Download helpers ======
   function downloadBlob(blob, filename){
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -569,12 +654,12 @@
     setTimeout(()=>URL.revokeObjectURL(a.href), 1500);
   }
 
-  // ====== splash ======
-  function splash(el, x, y){
+  // ====== Splash effect ======
+  function splash(el, clientX, clientY){
     const rect = el.getBoundingClientRect();
-    const rx = x / rect.width;
-    const ry = y / rect.height;
-    const count = 7 + Math.floor(Math.random() * 4);
+    const x = (clientX - rect.left) / rect.width;
+    const y = (clientY - rect.top) / rect.height;
+    const count = 8 + Math.floor(Math.random() * 5);
     for(let i=0;i<count;i++){
       const d = document.createElement("span");
       d.className = "droplet";
@@ -584,8 +669,8 @@
       const dx = Math.cos(angle) * dist;
       const dy = Math.sin(angle) * dist;
 
-      d.style.setProperty("--x", (rx*100).toFixed(2) + "%");
-      d.style.setProperty("--y", (ry*100).toFixed(2) + "%");
+      d.style.setProperty("--x", (x*100).toFixed(2) + "%");
+      d.style.setProperty("--y", (y*100).toFixed(2) + "%");
       d.style.setProperty("--s", size);
       d.style.setProperty("--dx", dx.toFixed(1) + "px");
       d.style.setProperty("--dy", dy.toFixed(1) + "px");
@@ -593,60 +678,58 @@
       d.addEventListener("animationend", () => d.remove(), { once:true });
     }
   }
+
   function bindSplash(el){
     let last = 0;
-    el.addEventListener("pointerenter", (e) => {
-      const r = el.getBoundingClientRect();
-      splash(el, e.clientX - r.left, e.clientY - r.top);
-    });
+    el.addEventListener("pointerenter", (e) => splash(el, e.clientX, e.clientY));
     el.addEventListener("pointermove", (e) => {
       const now = performance.now();
-      if(now - last < 170) return;
+      if(now - last < 160) return;
       last = now;
-      const r = el.getBoundingClientRect();
-      splash(el, e.clientX - r.left, e.clientY - r.top);
+      splash(el, e.clientX, e.clientY);
     });
   }
 
-  // ====== bubbles ======
+  // ====== Background bubbles ======
   function initBubbles(){
     const box = document.getElementById("bubbles");
-    const n = 18;
+    const n = 16;
     for(let i=0;i<n;i++){
       const b = document.createElement("div");
       b.className = "bubble";
       const left = Math.random()*100;
       const size = 6 + Math.random()*16;
-      const dur = 10 + Math.random()*14;
+      const dur = 11 + Math.random()*14;
       const delay = -Math.random()*dur;
+
       b.style.left = left.toFixed(2) + "vw";
       b.style.width = size.toFixed(1) + "px";
       b.style.height = size.toFixed(1) + "px";
       b.style.animationDuration = dur.toFixed(2) + "s";
       b.style.animationDelay = delay.toFixed(2) + "s";
-      b.style.opacity = (0.16 + Math.random()*0.34).toFixed(2);
+      b.style.opacity = (0.14 + Math.random()*0.26).toFixed(2);
       box.appendChild(b);
     }
   }
 
-  // ====== draw (waku bottom, ring top) ======
+  // ====== Canvas draw (waku bottom, ring top) ======
   function draw(now){
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    // waku bottom
+    // 1) waku bottom
     if(wakuImg){
       ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
     }else{
-      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillStyle = "rgba(0,0,0,.25)";
       ctx.fillRect(0,0,canvas.width,canvas.height);
     }
 
-    // user image
+    // 2) user image
     if(baseImg){
       ctx.drawImage(baseImg, 0,0, canvas.width, canvas.height);
     }
 
-    // stamps
+    // 3) stamps
     if(sutaImg){
       for(const st of stamps){
         const sz = st.size;
@@ -654,7 +737,7 @@
       }
     }
 
-    // ring
+    // 4) ring top
     if(holding){
       const t = Math.max(0, Math.min(1, (now - holdStart) / HOLD_MS));
       const r = 54;
@@ -664,17 +747,17 @@
       ctx.lineWidth = 12;
       ctx.lineCap = "round";
 
-      ctx.strokeStyle = "rgba(244,252,255,.28)";
+      ctx.strokeStyle = "rgba(245,253,255,.25)";
       ctx.beginPath();
       ctx.arc(holdX, holdY, r, 0, Math.PI*2);
       ctx.stroke();
 
-      ctx.strokeStyle = "rgba(130,220,255,.98)";
+      ctx.strokeStyle = "rgba(120,220,255,.98)";
       ctx.beginPath();
       ctx.arc(holdX, holdY, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2)*t);
       ctx.stroke();
 
-      ctx.fillStyle = "rgba(244,252,255,.95)";
+      ctx.fillStyle = "rgba(245,253,255,.95)";
       ctx.beginPath();
       ctx.arc(holdX, holdY, 5, 0, Math.PI*2);
       ctx.fill();
@@ -688,7 +771,11 @@
       }
     }
   }
-  function loop(now){ draw(now); requestAnimationFrame(loop); }
+
+  function loop(now){
+    draw(now);
+    requestAnimationFrame(loop);
+  }
 
   function getCanvasPoint(e){
     const rect = canvas.getBoundingClientRect();
@@ -710,64 +797,46 @@
     holdX = p.x; holdY = p.y;
     canvas.setPointerCapture(e.pointerId);
   });
+
   canvas.addEventListener("pointermove", (e) => {
     if(!holding) return;
     const p = getCanvasPoint(e);
     holdX = p.x; holdY = p.y;
   });
+
   const end = () => { if(holding) cancelHold(); };
   canvas.addEventListener("pointerup", end);
   canvas.addEventListener("pointercancel", end);
 
-  // ====== list render ======
-  function shuffled(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-  function pick3(){
-    if(mode === "close") return shuffled(MICRO.close).slice(0,3).map(t=>({t, tag:"🌙"}));
-    if(mode === "tomorrow") return shuffled(MICRO.tomorrow).slice(0,3).map(t=>({t, tag:"🌤"}));
-    if(mode === "ten") return shuffled(MICRO.ten).slice(0,3).map(t=>({t, tag:"⏱"}));
-    // mix: 1 each
-    const a = shuffled(MICRO.close)[0];
-    const b = shuffled(MICRO.tomorrow)[0];
-    const c = shuffled(MICRO.ten)[0];
-    return [{t:a, tag:"🌙"},{t:b, tag:"🌤"},{t:c, tag:"⏱"}];
-  }
-
-  function renderList(){
-    focusMain.innerHTML = "";
-    pick3().forEach(item => {
-      const el = document.createElement("div");
-      el.className = "task";
-      // text is guaranteed short (<= 20)
-      el.innerHTML = `
-        <div class="taskLine">
-          <div class="taskText">${item.t}</div>
-          <div class="taskTag">${item.tag}</div>
-        </div>
-      `;
-      focusMain.appendChild(el);
-      bindSplash(el);
-    });
-  }
-
-  function setMode(newMode){
-    mode = newMode;
-    [modeMix, modeClose, modeTomorrow, modeTen].forEach(b=>b.classList.remove("on"));
-    if(newMode === "mix") modeMix.classList.add("on");
-    if(newMode === "close") modeClose.classList.add("on");
-    if(newMode === "tomorrow") modeTomorrow.classList.add("on");
-    if(newMode === "ten") modeTen.classList.add("on");
-    renderList();
+  // ====== Hint logic ======
+  function pickHint(){
+    const i = Math.floor(Math.random() * HINTS.length);
+    const h = HINTS[i];
+    hintCat.textContent = h.cat;
+    hintText.textContent = h.text;
   }
 
   // ====== Home events ======
+  openListBtn.addEventListener("click", () => {
+    pickHint();
+    setScreen("list");
+  });
+
   uploadBtn.addEventListener("click", () => fileInput.click());
+
+  downloadWakuBtn.addEventListener("click", async (e) => {
+    // prevent triggering upload if user clicks DL area
+    e.stopPropagation();
+    for(const name of WAKU_CANDIDATES){
+      try{
+        const r = await fetch(name, {cache:"no-store"});
+        if(!r.ok) continue;
+        downloadBlob(await r.blob(), "waku1.png");
+        return;
+      }catch{}
+    }
+    showToast("waku1なし");
+  });
 
   fileInput.addEventListener("change", () => {
     const file = fileInput.files?.[0];
@@ -781,7 +850,7 @@
         baseImg = img;
         stamps = [];
         cancelHold();
-        setView("editor");
+        setScreen("editor");
         showToast("OK");
       }else{
         showToast("1600×900のみ");
@@ -797,45 +866,25 @@
     img.src = url;
   });
 
-  downloadWakuBtn.addEventListener("click", async () => {
-    for(const name of WAKU_CANDIDATES){
-      try{
-        const r = await fetch(name, {cache:"no-store"});
-        if(!r.ok) continue;
-        downloadBlob(await r.blob(), "waku1.png");
-        return;
-      }catch{}
-    }
-    showToast("waku1なし");
-  });
+  // ====== List events ======
+  listBackBtn.addEventListener("click", () => setScreen("home"));
+  shuffleBtn.addEventListener("click", () => pickHint());
 
-  openListBtn.addEventListener("click", () => {
-    setView("list");
-    renderList();
-  });
-
-  listBackBtn.addEventListener("click", () => setView("home"));
-
-  // list controls
-  modeMix.addEventListener("click", () => setMode("mix"));
-  modeClose.addEventListener("click", () => setMode("close"));
-  modeTomorrow.addEventListener("click", () => setMode("tomorrow"));
-  modeTen.addEventListener("click", () => setMode("ten"));
-  nextBtn.addEventListener("click", () => renderList());
-
-  // editor controls
+  // ====== Editor events ======
   backBtn.addEventListener("click", () => {
     baseImg = null;
     stamps = [];
     cancelHold();
     fileInput.value = "";
-    setView("home");
+    setScreen("home");
   });
+
   resetBtn.addEventListener("click", () => {
     stamps = [];
     cancelHold();
     showToast("消去");
   });
+
   downloadBtn.addEventListener("click", () => {
     if(!baseImg){ showToast("画像なし"); return; }
     canvas.toBlob((blob) => {
@@ -844,21 +893,17 @@
     }, "image/png");
   });
 
-  // ====== splash bindings ======
-  function bindAll(){
-    [openListBtn, uploadBtn, downloadWakuBtn, listBackBtn,
-     modeMix, modeClose, modeTomorrow, modeTen, nextBtn,
-     backBtn, resetBtn, downloadBtn
-    ].forEach(bindSplash);
-  }
-
-  // ====== start ======
+  // ====== init ======
   (async () => {
     initBubbles();
     await initAssets();
-    bindAll();
-    setMode("mix");
-    setView("home");
+
+    // splashes (only on clickable UI)
+    [openListBtn, uploadBtn, downloadWakuBtn, listBackBtn, shuffleBtn, backBtn, resetBtn, downloadBtn]
+      .forEach(bindSplash);
+
+    pickHint();
+    setScreen("home");
     requestAnimationFrame(loop);
   })();
 })();
