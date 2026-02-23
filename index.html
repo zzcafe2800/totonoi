@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stamp Tool</title>
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --panel:#141622;
+      --text:#e9ecff;
+      --muted:#a8b0d6;
+      --accent:#7aa7ff;
+      --danger:#ff6b7a;
+      --ok:#62d28f;
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(122,167,255,.18), transparent 55%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(98,210,143,.12), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .app{
+      width:min(1100px, 100%);
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    header{
+      padding:18px 18px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    header .title{
+      font-weight:700;
+      letter-spacing:.2px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    header .title .dot{
+      width:10px;height:10px;border-radius:99px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(122,167,255,.18);
+    }
+    header .hint{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.3;
+      text-align:right;
+    }
+
+    .content{ padding:18px; }
+
+    /* Home */
+    .home{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .home{ grid-template-columns:1fr; }
+    }
+    .preview{
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:14px;
+    }
+    .preview h3{
+      margin:0 0 10px;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .imgrow{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .imgbox{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .imgbox img{
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      display:block;
+      background: rgba(0,0,0,.25);
+    }
+    .imgbox .label{
+      padding:10px 10px 12px;
+      font-size:12px;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+    }
+
+    .controls{
+      background: rgba(0,0,0,.22);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:14px;
+    }
+    .controls h3{
+      margin:0 0 10px;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    input[type="file"]{
+      width:100%;
+      padding:12px;
+      border-radius: 12px;
+      border:1px dashed rgba(255,255,255,.22);
+      background: rgba(255,255,255,.04);
+      color:var(--muted);
+    }
+    .btn{
+      appearance:none;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:12px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:.2px;
+      transition: transform .04s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+    .btn:active{ transform: translateY(1px); }
+    .btn.primary{
+      border-color: rgba(122,167,255,.45);
+      background: rgba(122,167,255,.18);
+    }
+    .btn.primary:hover{ background: rgba(122,167,255,.26); }
+    .btn.danger{
+      border-color: rgba(255,107,122,.45);
+      background: rgba(255,107,122,.14);
+    }
+    .btn.ok{
+      border-color: rgba(98,210,143,.45);
+      background: rgba(98,210,143,.14);
+    }
+    .note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+    .note strong{ color: var(--text); }
+
+    /* Editor */
+    .editor{
+      display:none;
+      gap:14px;
+    }
+    .editor.active{ display:block; }
+    .toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+    .toolbar .left, .toolbar .right{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .badge{
+      font-size:12px;
+      color:var(--muted);
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+    }
+    .stageWrap{
+      border-radius: var(--radius);
+      overflow:hidden;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.28);
+      position:relative;
+    }
+    canvas{
+      width:100%;
+      height:auto;
+      display:block;
+      touch-action:none;
+    }
+    .overlay-ui{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+    .dim{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,.25);
+      opacity:0;
+      transition: opacity .15s ease;
+    }
+    .dim.on{ opacity:1; }
+
+    /* center toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      background: rgba(20,22,34,.92);
+      border:1px solid var(--border);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      display:none;
+      max-width: min(92vw, 900px);
+    }
+    .toast.show{ display:block; }
+  </style>
+</head>
+<body>
+  <div class="app card">
+    <header>
+      <div class="title"><span class="dot"></span>スタンプ合成ツール</div>
+      <div class="hint">
+        読み込めるのは <b>1600×900</b> の横長だけ<br>
+        右上DLで「背景 + スタンプ + waku1」を保存
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- HOME -->
+      <section id="home" class="home">
+        <div class="preview">
+          <h3>最初に表示する画像</h3>
+          <div class="imgrow">
+            <div class="imgbox">
+              <img id="homeWaku" alt="waku1" />
+              <div class="label">waku1.PNG</div>
+            </div>
+            <div class="imgbox">
+              <img id="homeSuta" alt="suta" />
+              <div class="label">suta.PNG</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <h3>操作</h3>
+
+          <div class="row" style="margin-bottom:10px">
+            <input id="fileInput" type="file" accept="image/*" />
+          </div>
+
+          <div class="row">
+            <button id="downloadWakuBtn" class="btn ok">waku1 をダウンロード</button>
+          </div>
+
+          <div class="note">
+            画像を選ぶと、<strong>1600×900 の時だけ</strong> 編集画面に移動します。<br>
+            違うサイズの場合は読み込みません。
+          </div>
+        </div>
+      </section>
+
+      <!-- EDITOR -->
+      <section id="editor" class="editor">
+        <div class="toolbar">
+          <div class="left">
+            <button id="stampToggleBtn" class="btn primary">スタンプ</button>
+            <button id="resetStampsBtn" class="btn danger">リセット</button>
+            <span id="modeBadge" class="badge">通常モード</span>
+          </div>
+          <div class="right">
+            <button id="downloadCompositeBtn" class="btn ok">ダウンロード</button>
+          </div>
+        </div>
+
+        <div class="stageWrap">
+          <canvas id="stage" width="1600" height="900"></canvas>
+          <div class="overlay-ui">
+            <div id="dim" class="dim"></div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>スタンプ</strong> → 画面を<strong>長押し(約3秒)</strong>で suta を貼り付け。<br>
+          長押し中は円が一周する演出。離すとキャンセル。<br>
+          <strong>リセット</strong>で貼ったスタンプを全部消します。
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+<script>
+(() => {
+  // ====== ここでスタンプサイズを変更できます（px, 1600x900基準） ======
+  const STAMP_SIZE_PX = 180; // ← 好きな値に
+  // ====== 長押し時間（ms） ======
+  const HOLD_MS = 3000;
+
+  // 画像ファイル名（フォールバックあり）
+  const WAKU_CANDIDATES = ["waku1.PNG", "waku1.png", "WAKU1.PNG", "WAKU1.png"];
+  const SUTA_CANDIDATES = ["suta.PNG", "suta.png", "SUTA.PNG", "SUTA.png"];
+
+  const elHome = document.getElementById("home");
+  const elEditor = document.getElementById("editor");
+
+  const fileInput = document.getElementById("fileInput");
+  const downloadWakuBtn = document.getElementById("downloadWakuBtn");
+
+  const stampToggleBtn = document.getElementById("stampToggleBtn");
+  const resetStampsBtn = document.getElementById("resetStampsBtn");
+  const downloadCompositeBtn = document.getElementById("downloadCompositeBtn");
+  const modeBadge = document.getElementById("modeBadge");
+
+  const homeWaku = document.getElementById("homeWaku");
+  const homeSuta = document.getElementById("homeSuta");
+
+  const canvas = document.getElementById("stage");
+  const ctx = canvas.getContext("2d");
+  const dim = document.getElementById("dim");
+  const toast = document.getElementById("toast");
+
+  // 状態
+  let wakuImg = null;
+  let sutaImg = null;
+  let baseImg = null;     // ユーザーが読み込んだ1600x900
+  let stamps = [];        // {x,y,size} (x,yはキャンバス座標)
+  let isStampMode = false;
+
+  // 長押し演出
+  let holding = false;
+  let holdStart = 0;
+  let holdX = 0, holdY = 0;
+  let holdDone = false;
+
+  // ========== Utility ==========
+  function showToast(msg, ms=2400){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=>toast.classList.remove("show"), ms);
+  }
+
+  function loadFirstExisting(candidates){
+    return new Promise((resolve, reject) => {
+      let i = 0;
+      const tryNext = () => {
+        if (i >= candidates.length) return reject(new Error("not found"));
+        const src = candidates[i++];
+        const img = new Image();
+        img.onload = () => resolve({img, src});
+        img.onerror = () => tryNext();
+        img.src = src + "?v=" + Date.now(); // cache bust
+      };
+      tryNext();
+    });
+  }
+
+  function downloadBlob(blob, filename){
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+  }
+
+  function downloadByUrl(url, filename){
+    fetch(url).then(r => r.blob()).then(b => downloadBlob(b, filename))
+      .catch(() => showToast("ダウンロードに失敗しました（ファイル名/配置を確認してね）"));
+  }
+
+  function setView(view){
+    if(view === "home"){
+      elHome.style.display = "grid";
+      elEditor.classList.remove("active");
+    }else{
+      elHome.style.display = "none";
+      elEditor.classList.add("active");
+    }
+  }
+
+  function setStampMode(on){
+    isStampMode = on;
+    dim.classList.toggle("on", on);
+    modeBadge.textContent = on ? "スタンプモード：長押しで貼る" : "通常モード";
+    stampToggleBtn.textContent = on ? "戻る" : "スタンプ";
+  }
+
+  // ========== Draw ==========
+  function clear(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+
+  function drawAll(now=performance.now()){
+    clear();
+
+    // 背景：ユーザー画像
+    if(baseImg){
+      ctx.drawImage(baseImg, 0,0, canvas.width, canvas.height);
+    }else{
+      // baseImgがない時は黒
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+    // スタンプ
+    if(sutaImg){
+      for(const st of stamps){
+        const sz = st.size;
+        ctx.drawImage(sutaImg, st.x - sz/2, st.y - sz/2, sz, sz);
+      }
+    }
+
+    // 長押し中の円（ローディング）
+    if(isStampMode && holding){
+      const t = Math.min(1, (now - holdStart) / HOLD_MS);
+      const r = 42;
+      ctx.save();
+      ctx.lineWidth = 10;
+      ctx.lineCap = "round";
+
+      // うっすら背景リング
+      ctx.strokeStyle = "rgba(255,255,255,.22)";
+      ctx.beginPath();
+      ctx.arc(holdX, holdY, r, 0, Math.PI*2);
+      ctx.stroke();
+
+      // 進捗リング
+      ctx.strokeStyle = "rgba(122,167,255,.95)";
+      ctx.beginPath();
+      ctx.arc(holdX, holdY, r, -Math.PI/2, -Math.PI/2 + (Math.PI*2)*t);
+      ctx.stroke();
+
+      // 中の点
+      ctx.fillStyle = "rgba(255,255,255,.9)";
+      ctx.beginPath();
+      ctx.arc(holdX, holdY, 4.5, 0, Math.PI*2);
+      ctx.fill();
+
+      ctx.restore();
+
+      if(t >= 1 && !holdDone){
+        holdDone = true;
+        // スタンプ確定
+        stamps.push({x: holdX, y: holdY, size: STAMP_SIZE_PX});
+        showToast("スタンプを貼った！");
+      }
+    }
+
+    // 最前面：waku（枠）※合成にも使う
+    if(wakuImg){
+      ctx.drawImage(wakuImg, 0,0, canvas.width, canvas.height);
+    }
+  }
+
+  function rafLoop(){
+    drawAll();
+    requestAnimationFrame(rafLoop);
+  }
+
+  // ========== Pointer Handling ==========
+  function getCanvasPoint(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+    return {x, y};
+  }
+
+  function cancelHold(){
+    holding = false;
+    holdStart = 0;
+    holdDone = false;
+  }
+
+  canvas.addEventListener("pointerdown", (e) => {
+    if(!isStampMode) return;
+    if(!baseImg || !sutaImg) return;
+
+    canvas.setPointerCapture(e.pointerId);
+    const p = getCanvasPoint(e);
+    holding = true;
+    holdDone = false;
+    holdStart = performance.now();
+    holdX = p.x;
+    holdY = p.y;
+  });
+
+  canvas.addEventListener("pointermove", (e) => {
+    if(!isStampMode) return;
+    if(!holding) return;
+    // 指が動いたら追従（長押し位置を動かしてOK）
+    const p = getCanvasPoint(e);
+    holdX = p.x; holdY = p.y;
+  });
+
+  const endHold = (e) => {
+    if(!isStampMode) return;
+    if(!holding) return;
+    // 離したらローディングはリセット（キャンセル or 確定後もリセット）
+    cancelHold();
+  };
+
+  canvas.addEventListener("pointerup", endHold);
+  canvas.addEventListener("pointercancel", endHold);
+  canvas.addEventListener("pointerleave", endHold);
+
+  // ========== Home Images Load ==========
+  async function initAssets(){
+    try{
+      const w = await loadFirstExisting(WAKU_CANDIDATES);
+      wakuImg = w.img;
+      homeWaku.src = w.src;
+    }catch{
+      homeWaku.alt = "waku1 が見つかりません";
+      showToast("waku1.PNG が見つかりません（同じフォルダに置いてね）", 3500);
+    }
+
+    try{
+      const s = await loadFirstExisting(SUTA_CANDIDATES);
+      sutaImg = s.img;
+      homeSuta.src = s.src;
+    }catch{
+      homeSuta.alt = "suta が見つかりません";
+      showToast("suta.PNG が見つかりません（同じフォルダに置いてね）", 3500);
+    }
+  }
+
+  // ========== File input ==========
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files?.[0];
+    if(!file) return;
+
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      // サイズチェック
+      if(img.naturalWidth === 1600 && img.naturalHeight === 900){
+        baseImg = img;
+        stamps = [];
+        cancelHold();
+        setStampMode(false);
+        setView("editor");
+        showToast("読み込みOK（1600×900）");
+      }else{
+        URL.revokeObjectURL(url);
+        showToast(`1600×900のみ対応です（今: ${img.naturalWidth}×${img.naturalHeight}）`, 3600);
+        fileInput.value = "";
+      }
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      showToast("画像の読み込みに失敗しました");
+      fileInput.value = "";
+    };
+    img.src = url;
+  });
+
+  // ========== Buttons ==========
+  downloadWakuBtn.addEventListener("click", async () => {
+    // 実際に読み込めたファイル名でDL
+    const src = homeWaku.getAttribute("src");
+    if(!src){
+      showToast("waku1 が読み込めていません（ファイル名/配置確認）");
+      return;
+    }
+    downloadByUrl(src.split("?")[0], "waku1.png");
+  });
+
+  stampToggleBtn.addEventListener("click", () => {
+    // 仕様：スタンプ押すと「戻る」ボタンに切り替わる → 戻るで最初の画面へ
+    if(!isStampMode){
+      setStampMode(true);
+      cancelHold();
+    }else{
+      // 戻る
+      baseImg = null;
+      stamps = [];
+      cancelHold();
+      setStampMode(false);
+      setView("home");
+      fileInput.value = "";
+      showToast("最初の画面に戻りました");
+    }
+  });
+
+  resetStampsBtn.addEventListener("click", () => {
+    stamps = [];
+    cancelHold();
+    showToast("スタンプを全部消しました");
+  });
+
+  downloadCompositeBtn.addEventListener("click", async () => {
+    if(!baseImg){
+      showToast("画像が読み込まれていません");
+      return;
+    }
+    // 現在のcanvasは常に「背景 + スタンプ + waku」を描いているので、それをそのまま保存
+    canvas.toBlob((blob) => {
+      if(!blob){
+        showToast("保存に失敗しました");
+        return;
+      }
+      downloadBlob(blob, "stamped.png");
+    }, "image/png");
+  });
+
+  // ========== Start ==========
+  (async () => {
+    await initAssets();
+    setView("home");
+    setStampMode(false);
+    rafLoop();
+  })();
+})();
+</script>
+</body>
+</html>
